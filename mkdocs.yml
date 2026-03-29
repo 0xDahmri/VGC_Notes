@@ -41,8 +41,6 @@ markdown_extensions:
 
 nav:
   - Home: index.md
-  - Formats:
-    - Regulation H: formats/regulation-h.md
   - Guides:
     - EV Spread Philosophy: guides/ev-spreads.md
   - Teams:
