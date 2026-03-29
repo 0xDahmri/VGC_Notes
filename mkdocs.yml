@@ -8,14 +8,14 @@ theme:
   name: material
   palette:
     - scheme: slate
-      primary: red
-      accent: deep orange
+      primary: deep purple
+      accent: indigo
       toggle:
         icon: material/brightness-4
         name: Switch to light mode
     - scheme: default
-      primary: red
-      accent: deep orange
+      primary: deep purple
+      accent: indigo
       toggle:
         icon: material/brightness-7
         name: Switch to dark mode
@@ -45,7 +45,7 @@ nav:
     - Introduction: where-to-start/introduction.md
     - Getting Started: where-to-start/getting-started.md
     - VGC Rules: where-to-start/vgc-rules.md
-    - Understand Stats\: EVs/IVs: where-to-start/understand-stats.md
+    - "Understand Stats: EVs/IVs": where-to-start/understand-stats.md
     - Finding the Win Conditions: where-to-start/win-conditions.md
     - Building a Team: where-to-start/building-a-team.md
     - Research: where-to-start/research.md
