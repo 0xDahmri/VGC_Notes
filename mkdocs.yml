@@ -42,7 +42,6 @@ markdown_extensions:
 nav:
   - Home: index.md
   - Guides:
-    - EV Spread Philosophy: guides/ev-spreads.md
   - Teams:
     - Sample Teams: teams/sample-teams.md
   - GEN1: gen1/index.md
