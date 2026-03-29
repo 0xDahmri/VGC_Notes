@@ -41,6 +41,18 @@ markdown_extensions:
 
 nav:
   - Home: index.md
+  - Where to Start:
+    - Introduction: where-to-start/introduction.md
+    - Getting Started: where-to-start/getting-started.md
+    - VGC Rules: where-to-start/vgc-rules.md
+    - Understand Stats\: EVs/IVs: where-to-start/understand-stats.md
+    - Finding the Win Conditions: where-to-start/win-conditions.md
+    - Building a Team: where-to-start/building-a-team.md
+    - Research: where-to-start/research.md
+    - Running Calculations: where-to-start/running-calculations.md
+    - Before the Match: where-to-start/before-the-match.md
+    - Meta Decisions: where-to-start/meta-decisions.md
+    - Handling Archetypes: where-to-start/handling-archetypes.md
   - Guides: guides/ev-spreads.md
   - Teams: teams/sample-teams.md
   - GEN1: gen1/index.md
