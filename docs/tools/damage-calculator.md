@@ -161,3 +161,4 @@ Each SP adds +1 to the final stat. Max 32 SP per stat, 66 SP total.
 
 <script src="../js/champions-data.js"></script>
 <script src="../js/champions-calc.js"></script>
+<script>initCalc();</script>

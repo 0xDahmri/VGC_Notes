@@ -30,10 +30,6 @@ theme:
 extra_css:
   - css/champions-calc.css
 
-extra_javascript:
-  - js/champions-data.js
-  - js/champions-calc.js
-
 plugins:
   - search
 

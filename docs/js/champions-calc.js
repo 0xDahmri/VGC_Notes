@@ -441,4 +441,4 @@ function initCalc() {
   runCalc();
 }
 
-document.addEventListener('DOMContentLoaded', initCalc);
+// initCalc is called directly by the page after both scripts have loaded
