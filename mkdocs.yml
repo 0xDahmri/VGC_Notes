@@ -27,6 +27,13 @@ theme:
     - search.suggest
     - content.code.copy
 
+extra_css:
+  - css/champions-calc.css
+
+extra_javascript:
+  - js/champions-data.js
+  - js/champions-calc.js
+
 plugins:
   - search
 
@@ -38,6 +45,7 @@ markdown_extensions:
   - pymdownx.highlight:
       anchor_linenums: true
   - attr_list
+  - md_in_html
 
 nav:
   - Home: index.md
@@ -53,8 +61,12 @@ nav:
     - Before the Match: where-to-start/before-the-match.md
     - Meta Decisions: where-to-start/meta-decisions.md
     - Handling Archetypes: where-to-start/handling-archetypes.md
-  - Guides: guides/ev-spreads.md
-  - Teams: teams/sample-teams.md
+  - Tools:
+    - Damage Calculator: tools/damage-calculator.md
+  - Guides:
+    - EV Spreads: guides/ev-spreads.md
+  - Teams:
+    - Sample Teams: teams/sample-teams.md
   - Generational Specific:
     - GEN1: gen1/index.md
     - GEN2: gen2/index.md
