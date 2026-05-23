@@ -295,14 +295,6 @@
   padding: 0.65rem 0.75rem 0.6rem;
 }
 
-.ts-notes-header {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.5rem;
-  flex-shrink: 0;
-}
-
 .ts-notes-area textarea {
   flex: 1;
   border: none;
@@ -319,26 +311,47 @@
 
 .ts-notes-area textarea:focus { border-bottom-color: #4dd0e1; }
 
-/* ── Fill Speed button ── */
-.ts-speed-btn {
-  padding: 0.3rem 0.5rem;
-  border: 1px solid rgba(77,208,225,0.4);
-  border-radius: 6px;
-  background: rgba(77,208,225,0.07);
-  color: #4dd0e1;
-  font-size: 0.6rem;
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  cursor: pointer;
-  white-space: nowrap;
-  transition: background 0.15s, border-color 0.15s;
+/* ── Type display ── */
+.ts-ov-type-cell { min-width: 100px; }
+
+.ts-type-display {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  align-items: center;
+  min-height: 22px;
 }
 
-.ts-speed-btn:hover {
-  background: rgba(77,208,225,0.18);
-  border-color: #4dd0e1;
+.ts-type-badge {
+  display: inline-block;
+  padding: 0.1rem 0.45rem;
+  border-radius: 4px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #fff;
+  line-height: 1.6;
 }
+
+.ts-type-normal   { background: #A8A77A; color: #1a1a1a; }
+.ts-type-fire     { background: #EE8130; }
+.ts-type-water    { background: #6390F0; }
+.ts-type-electric { background: #F7D02C; color: #1a1a1a; }
+.ts-type-grass    { background: #7AC74C; }
+.ts-type-ice      { background: #96D9D6; color: #1a1a1a; }
+.ts-type-fighting { background: #C22E28; }
+.ts-type-poison   { background: #A33EA1; }
+.ts-type-ground   { background: #E2BF65; color: #1a1a1a; }
+.ts-type-flying   { background: #A98FF3; }
+.ts-type-psychic  { background: #F95587; }
+.ts-type-bug      { background: #A6B91A; }
+.ts-type-rock     { background: #B6A136; }
+.ts-type-ghost    { background: #735797; }
+.ts-type-dragon   { background: #6F35FC; }
+.ts-type-dark     { background: #705746; }
+.ts-type-steel    { background: #B7B7CE; color: #1a1a1a; }
+.ts-type-fairy    { background: #D685AD; }
 
 /* ── Print ── */
 @media print {
@@ -349,7 +362,6 @@
   .md-tabs,
   .no-print,
   .sheet-controls,
-  .ts-speed-btn,
   .ts-ac-drop {
     display: none !important;
   }

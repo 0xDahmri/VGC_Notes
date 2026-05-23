@@ -4,13 +4,10 @@
   const KEY = 'vgc-team-sheet-v1';
   const SPR = '../../images/sprites/';
 
-  /* Per-slot selected Pokémon */
   const selected = [null, null, null, null, null, null];
-
-  /* Set inside build() so window.POKEMON_DATA is guaranteed loaded */
   let DATA = [];
 
-  /* ── Global autocomplete dropdown (body-level avoids any overflow clipping) ── */
+  /* ── Global autocomplete dropdown (body-level avoids overflow clipping) ── */
   let _drop = null;
 
   function getDrop() {
@@ -63,10 +60,11 @@
                    oninput="tsNameInput(${i})" onblur="tsNameBlur()">
           </div>
         </td>`;
-      const rest = ['type','ability','nature','item'].map(f =>
+      const typeCell = `<td class="ts-ov-type-cell"><div class="ts-type-display" id="ov${i}-types"></div></td>`;
+      const rest = ['ability','nature','item'].map(f =>
         `<td><input type="text" id="ov${i}-${f}" autocomplete="off"></td>`
       ).join('');
-      return `<tr>${nameCell}${rest}</tr>`;
+      return `<tr>${nameCell}${typeCell}${rest}</tr>`;
     }).join('');
 
     return `
@@ -89,16 +87,23 @@
     return `<div class="ts-tab-bar">${tabs}</div>`;
   }
 
-  function buildSection(i) {
-    const stats = ['HP','ATK','DEF','SP.A','SP.D','SPD','TOTAL'];
+  const STATS = [
+    { label: 'HP',    id: 'HP'    },
+    { label: 'ATK',   id: 'ATK'   },
+    { label: 'DEF',   id: 'DEF'   },
+    { label: 'SP.A',  id: 'SPA'   },
+    { label: 'SP.D',  id: 'SPDEF' },
+    { label: 'SPD',   id: 'SPD'   },
+    { label: 'TOTAL', id: 'TOTAL' },
+  ];
 
-    const statCols = stats.map(s => {
-      const id = `pk${i}-${s.replace(/\./g,'')}`;
-      return `<div class="ts-stat-col">
-        <div class="ts-stat-label">${s}</div>
-        <input type="text" id="${id}" autocomplete="off">
-      </div>`;
-    }).join('');
+  function buildSection(i) {
+    const statCols = STATS.map(s =>
+      `<div class="ts-stat-col">
+        <div class="ts-stat-label">${s.label}</div>
+        <input type="text" id="pk${i}-${s.id}" autocomplete="off">
+      </div>`
+    ).join('');
 
     const moves = [1,2,3,4].map(n => `
       <div class="ts-move-slot">
@@ -116,10 +121,7 @@
           <div class="ts-move-grid">${moves}</div>
         </div>
         <div class="ts-notes-area">
-          <div class="ts-notes-header">
-            <div class="ts-vert-label">NOTES</div>
-            <button class="ts-speed-btn" onclick="tsFillSpeed(${i})">Fill Speed</button>
-          </div>
+          <div class="ts-vert-label">NOTES</div>
           <textarea id="pk${i}-notes" rows="4"></textarea>
         </div>
       </div>`;
@@ -132,7 +134,7 @@
     if (!inp) return;
     tsUpdateTabName(i);
     showDrop(i, inp, acFilter(inp.value));
-    if (!inp.value.trim()) tsSetSprite(i, null);
+    if (!inp.value.trim()) { tsSetSprite(i, null); tsSetTypes(i, null); }
   };
 
   window.tsNameBlur = function () {
@@ -145,6 +147,8 @@
     const poke = DATA.find(p => p.name === name) || null;
     selected[i] = poke;
     tsSetSprite(i, poke);
+    tsSetTypes(i, poke);
+    if (poke) tsAutoFillSpeed(i, poke);
     tsUpdateTabName(i);
     hideDrop();
     save();
@@ -165,25 +169,30 @@
     }
   }
 
-  /* ── Fill Speed Ranges ── */
+  /* ── Type badge helpers ── */
 
-  window.tsFillSpeed = function (i) {
-    const notes = document.getElementById(`pk${i}-notes`);
-    if (!notes) return;
-    const poke = selected[i];
-    if (!poke) { alert('Select a Pokémon in the overview table first.'); return; }
+  function tsSetTypes(i, poke) {
+    const el = document.getElementById(`ov${i}-types`);
+    if (!el) return;
+    if (!poke || !poke.types || !poke.types.length) { el.innerHTML = ''; return; }
+    el.innerHTML = poke.types.map(t =>
+      `<span class="ts-type-badge ts-type-${t.toLowerCase()}">${t}</span>`
+    ).join('');
+  }
+
+  /* ── Speed auto-fill ── */
+
+  function tsAutoFillSpeed(i, poke) {
     const sp = window.calcSpeed(poke.base);
-    notes.value = [
-      `=== Speed Tiers: ${poke.name} (Base ${poke.base}) ===`,
-      `Max Speed (Timid +32 SP):    ${sp.maxSpeed}`,
-      `Neutral +32 SP:              ${sp.neutral32}`,
-      `Neutral  0 SP:               ${sp.neutral0}`,
-      `-Spe     0 SP:               ${sp.minus0}`,
-      `Choice Scarf (max):          ${sp.scarfMax}`,
-      `Choice Scarf (+32 neutral):  ${sp.scarfNeutral32}`,
-    ].join('\n');
-    save();
-  };
+    const spdEl = document.getElementById(`pk${i}-SPD`);
+    if (spdEl && !spdEl.value) spdEl.value = `${sp.neutral0}–${sp.maxSpeed}`;
+    const notesEl = document.getElementById(`pk${i}-notes`);
+    if (notesEl && !notesEl.value) {
+      const line1 = `${poke.name} (B${poke.base}): ${sp.minus0}–${sp.maxSpeed} | 0SP: ${sp.neutral0} | +32SP: ${sp.neutral32}`;
+      const line2 = `Scarf: ${sp.scarfNeutral32}(+32SP) / ${sp.scarfMax}(max)`;
+      notesEl.value = `${line1}\n${line2}`;
+    }
+  }
 
   /* ── Tab switching ── */
 
@@ -203,7 +212,6 @@
   /* ── DOM injection ── */
 
   function build() {
-    /* Capture shared data here — guarantees pokemon-data.js has already run */
     DATA = window.POKEMON_DATA || [];
 
     const c = document.getElementById('ts-container');
@@ -217,6 +225,7 @@
         const poke = DATA.find(p => p.name === inp.value) || null;
         selected[i] = poke;
         tsSetSprite(i, poke);
+        tsSetTypes(i, poke);
       }
     });
     c.addEventListener('input', save);
@@ -249,6 +258,7 @@
     [0,1,2,3,4,5].forEach(i => {
       selected[i] = null;
       tsSetSprite(i, null);
+      tsSetTypes(i, null);
       const label = document.getElementById(`ts-tab-name-${i}`);
       if (label) label.textContent = String(i + 1);
     });
