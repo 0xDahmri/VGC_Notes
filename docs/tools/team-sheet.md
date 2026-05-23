@@ -6,5 +6,3 @@
 </div>
 
 <div id="ts-container"></div>
-
-<script src="../js/team-sheet.js"></script>
