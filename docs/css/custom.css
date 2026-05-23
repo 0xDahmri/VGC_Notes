@@ -28,6 +28,7 @@
 .md-header {
   background: linear-gradient(135deg, #1c0f30 0%, #2e1050 100%) !important;
   box-shadow: 0 1px 0 rgba(255,255,255,0.06) !important;
+  z-index: 200 !important;
 }
 
 .md-header__title {
@@ -39,6 +40,7 @@
 .md-tabs {
   background: rgba(14, 9, 28, 0.88) !important;
   border-bottom: 1px solid rgba(255,255,255,0.07) !important;
+  z-index: 199 !important;
 }
 
 .md-tabs__link {
