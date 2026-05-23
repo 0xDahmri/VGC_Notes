@@ -1,0 +1,215 @@
+/* ── Hero ── */
+.st-hero {
+  background: linear-gradient(135deg, #130d20 0%, #2b1240 45%, #1d1028 100%);
+  border-radius: 16px;
+  padding: 2.25rem 2.5rem 2rem;
+  margin-bottom: 1.5rem;
+  overflow: hidden;
+  position: relative;
+}
+
+.st-hero::after {
+  content: '';
+  position: absolute;
+  width: 420px;
+  height: 420px;
+  background: radial-gradient(circle, rgba(140,40,220,0.3) 0%, transparent 70%);
+  right: -100px;
+  top: -140px;
+  pointer-events: none;
+}
+
+.st-eyebrow {
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  font-weight: 700;
+  color: rgba(255,255,255,0.4);
+  text-transform: uppercase;
+  margin-bottom: 0.6rem;
+}
+
+.st-htitle {
+  font-size: 1.85rem;
+  font-weight: 800;
+  color: #fff;
+  margin-bottom: 0.5rem;
+  line-height: 1.2;
+}
+
+.st-hsub {
+  font-size: 0.82rem;
+  color: rgba(255,255,255,0.55);
+  max-width: 520px;
+  line-height: 1.55;
+  margin-bottom: 1.5rem;
+}
+
+/* ── Search ── */
+.st-sbox {
+  position: relative;
+  max-width: 520px;
+  display: flex;
+  align-items: center;
+}
+
+.st-sicon {
+  position: absolute;
+  left: 0.85rem;
+  color: rgba(255,255,255,0.35);
+  flex-shrink: 0;
+  pointer-events: none;
+}
+
+#st-search {
+  width: 100%;
+  box-sizing: border-box;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 10px;
+  color: #fff;
+  font-size: 0.88rem;
+  padding: 0.65rem 1rem 0.65rem 2.6rem;
+  outline: none;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+#st-search::placeholder { color: rgba(255,255,255,0.35); }
+
+#st-search:focus {
+  background: rgba(255,255,255,0.12);
+  border-color: rgba(255,255,255,0.3);
+}
+
+/* ── Table wrapper ── */
+.st-wrap {
+  overflow-x: auto;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.06);
+}
+
+/* ── Table — override MkDocs Material defaults ── */
+.st-wrap .st-table {
+  width: 100% !important;
+  border-collapse: collapse !important;
+  font-size: 0.84rem !important;
+  min-width: 780px !important;
+  background: #171924 !important;
+  display: table !important;
+  margin: 0 !important;
+}
+
+.st-wrap .st-table thead tr {
+  background: transparent !important;
+}
+
+.st-wrap .st-table th.st-th {
+  background: #1e2233 !important;
+  color: rgba(255,255,255,0.5) !important;
+  font-size: 0.62rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.07em !important;
+  text-transform: uppercase !important;
+  padding: 0.8rem 0.9rem !important;
+  text-align: right !important;
+  white-space: nowrap !important;
+  cursor: pointer !important;
+  user-select: none !important;
+  border: none !important;
+  border-bottom: 1px solid rgba(255,255,255,0.07) !important;
+  vertical-align: middle !important;
+  transition: color 0.12s !important;
+}
+
+.st-wrap .st-table th.st-th:hover { color: rgba(255,255,255,0.85) !important; }
+.st-wrap .st-table th.st-th.st-on { color: #fff !important; }
+
+.st-wrap .st-table th.st-name-th {
+  text-align: left !important;
+  position: sticky !important;
+  left: 0 !important;
+  z-index: 10 !important;
+  min-width: 190px !important;
+}
+
+.st-arr {
+  display: inline-block;
+  margin-left: 0.25em;
+  font-size: 0.75em;
+  vertical-align: middle;
+}
+
+/* ── Body cells ── */
+.st-wrap .st-table tbody td {
+  padding: 0.4rem 0.9rem !important;
+  text-align: right !important;
+  border: none !important;
+  border-bottom: 1px solid rgba(255,255,255,0.04) !important;
+  color: rgba(255,255,255,0.75) !important;
+  background: #171924 !important;
+  vertical-align: middle !important;
+}
+
+.st-wrap .st-table tbody tr:nth-child(even) td { background: #1b1d2b !important; }
+
+.st-wrap .st-table tbody td.st-name-td {
+  text-align: left !important;
+  position: sticky !important;
+  left: 0 !important;
+  z-index: 5 !important;
+  background: #171924 !important;
+}
+
+.st-wrap .st-table tbody tr:nth-child(even) td.st-name-td { background: #1b1d2b !important; }
+
+/* ── Pokemon cell ── */
+.st-poke {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.st-sprite {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.st-pname {
+  font-weight: 700;
+  color: #fff;
+  font-size: 0.87rem;
+  display: block;
+  line-height: 1.3;
+}
+
+.st-bspe {
+  font-size: 0.68rem;
+  color: rgba(255,255,255,0.32);
+}
+
+/* ── MAX SPEED cyan highlight ── */
+.st-wrap .st-table th.st-max { color: #4dd0e1 !important; }
+.st-wrap .st-table td.st-max {
+  color: #4dd0e1 !important;
+  font-weight: 700 !important;
+}
+
+/* ── Empty state ── */
+.st-empty {
+  text-align: center !important;
+  color: rgba(255,255,255,0.4) !important;
+  padding: 2.5rem !important;
+  font-size: 0.9rem !important;
+}
+
+/* ── Print ── */
+@media print {
+  .st-hero { display: none !important; }
+  .st-wrap { overflow: visible !important; }
+  .st-wrap .st-table th, .st-wrap .st-table td {
+    color: #000 !important;
+    background: transparent !important;
+    border-color: #ccc !important;
+  }
+}

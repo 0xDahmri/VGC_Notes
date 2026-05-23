@@ -31,9 +31,11 @@ theme:
 
 extra_css:
   - css/team-sheet.css
+  - css/speed-tiers.css
 
 extra_javascript:
   - js/team-sheet.js
+  - js/speed-tiers.js
 
 plugins:
   - search
@@ -64,6 +66,7 @@ nav:
     - Handling Archetypes: where-to-start/handling-archetypes.md
   - Tools:
     - Team Sheet: tools/team-sheet.md
+    - Speed Tiers (Champions): tools/speed-tiers.md
   - Guides:
     - EV Spreads: guides/ev-spreads.md
   - Teams:
