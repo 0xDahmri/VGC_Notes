@@ -1,0 +1,296 @@
+/* ═══════════════════════════════════════════════
+   VGC Notes — Global Theme
+   Dark navy/purple palette · Cyan accent
+   ═══════════════════════════════════════════════ */
+
+/* ── Palette overrides (dark scheme) ── */
+[data-md-color-scheme="slate"] {
+  --md-default-bg-color:            #12141d;
+  --md-default-bg-color--light:     #1a1d2b;
+  --md-default-bg-color--lighter:   #1e2133;
+  --md-default-bg-color--lightest:  rgba(255,255,255,0.08);
+
+  --md-default-fg-color:            rgba(255,255,255,0.87);
+  --md-default-fg-color--light:     rgba(255,255,255,0.54);
+  --md-default-fg-color--lighter:   rgba(255,255,255,0.32);
+  --md-default-fg-color--lightest:  rgba(255,255,255,0.10);
+
+  --md-code-bg-color:               #1e2133;
+  --md-code-fg-color:               #cdd9e5;
+
+  --md-accent-fg-color:             #4dd0e1;
+  --md-accent-fg-color--transparent: rgba(77,208,225,0.12);
+
+  --md-typeset-a-color:             #4dd0e1;
+}
+
+/* ── Header ── */
+.md-header {
+  background: linear-gradient(135deg, #1c0f30 0%, #2e1050 100%) !important;
+  box-shadow: 0 1px 0 rgba(255,255,255,0.06) !important;
+}
+
+.md-header__title {
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+/* ── Tabs ── */
+.md-tabs {
+  background: rgba(14, 9, 28, 0.88) !important;
+  border-bottom: 1px solid rgba(255,255,255,0.07) !important;
+}
+
+.md-tabs__link {
+  color: rgba(255,255,255,0.6) !important;
+  font-weight: 600;
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+}
+
+.md-tabs__link--active,
+.md-tabs__link:hover {
+  color: #4dd0e1 !important;
+}
+
+.md-tabs__indicator {
+  background: #4dd0e1 !important;
+}
+
+/* ── Sidebar & navigation ── */
+.md-sidebar {
+  background: #12141d;
+}
+
+.md-nav__title {
+  color: rgba(255,255,255,0.4);
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.md-nav__link {
+  color: rgba(255,255,255,0.6);
+  font-size: 0.8rem;
+}
+
+.md-nav__link:hover,
+.md-nav__link--active {
+  color: #4dd0e1 !important;
+}
+
+.md-nav__item--section > .md-nav__link {
+  color: rgba(255,255,255,0.75);
+  font-weight: 700;
+}
+
+/* ── Search ── */
+.md-search__form {
+  background: rgba(255,255,255,0.08) !important;
+  border-radius: 8px !important;
+  border: 1px solid rgba(255,255,255,0.1) !important;
+}
+
+.md-search__input {
+  color: rgba(255,255,255,0.87) !important;
+}
+
+.md-search__input::placeholder {
+  color: rgba(255,255,255,0.38) !important;
+}
+
+.md-search-result__article {
+  background: #1a1d2b;
+}
+
+.md-search-result__article:hover {
+  background: #1e2133;
+}
+
+/* ── Content area ── */
+.md-content {
+  background: #12141d;
+}
+
+/* ── Typography ── */
+.md-typeset h1 {
+  color: #fff;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+
+.md-typeset h2 {
+  color: rgba(255,255,255,0.9);
+  font-weight: 700;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  padding-bottom: 0.35em;
+}
+
+.md-typeset h3 {
+  color: rgba(255,255,255,0.8);
+  font-weight: 600;
+}
+
+.md-typeset h4,
+.md-typeset h5,
+.md-typeset h6 {
+  color: rgba(255,255,255,0.7);
+}
+
+.md-typeset a {
+  color: #4dd0e1;
+}
+
+.md-typeset a:hover {
+  color: #80deea;
+}
+
+/* ── Inline code ── */
+.md-typeset code {
+  background: rgba(77,208,225,0.10);
+  color: #80deea;
+  border-radius: 4px;
+  font-size: 0.85em;
+  padding: 0.1em 0.35em;
+  border: none;
+}
+
+/* ── Code blocks ── */
+.md-typeset pre {
+  background: #1a1d2b !important;
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 10px;
+}
+
+.md-typeset pre > code {
+  background: transparent;
+  color: #cdd9e5;
+  padding: 0;
+  border: none;
+}
+
+.highlight .filename {
+  background: #1e2133;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+  color: rgba(255,255,255,0.5);
+  font-size: 0.75rem;
+  border-radius: 10px 10px 0 0;
+}
+
+/* ── Tables ── */
+.md-typeset table:not([class]) {
+  border-collapse: collapse;
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 10px;
+  overflow: hidden;
+  display: table;
+  width: 100%;
+}
+
+.md-typeset table:not([class]) th {
+  background: #1e2133 !important;
+  color: rgba(255,255,255,0.6) !important;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border: none;
+  border-bottom: 1px solid rgba(255,255,255,0.07) !important;
+  padding: 0.75rem 1rem;
+}
+
+.md-typeset table:not([class]) td {
+  border: none !important;
+  border-bottom: 1px solid rgba(255,255,255,0.05) !important;
+  padding: 0.6rem 1rem;
+  color: rgba(255,255,255,0.8);
+}
+
+.md-typeset table:not([class]) tr:nth-child(odd) td {
+  background: #171924;
+}
+
+.md-typeset table:not([class]) tr:nth-child(even) td {
+  background: #1a1d2b;
+}
+
+.md-typeset table:not([class]) tr:last-child td {
+  border-bottom: none !important;
+}
+
+/* ── Admonitions ── */
+.md-typeset .admonition,
+.md-typeset details {
+  background: #1a1d2b;
+  border-radius: 10px;
+  border-left-color: #4dd0e1;
+  border-left-width: 4px;
+  box-shadow: none;
+}
+
+.md-typeset .admonition-title,
+.md-typeset summary {
+  background: rgba(77,208,225,0.08) !important;
+  border-radius: 8px 8px 0 0;
+  font-weight: 700;
+  font-size: 0.82rem;
+  letter-spacing: 0.03em;
+  color: #4dd0e1 !important;
+}
+
+.md-typeset .admonition-title::before,
+.md-typeset summary::before {
+  color: #4dd0e1 !important;
+}
+
+/* ── Buttons ── */
+.md-typeset .md-button {
+  border-radius: 8px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.md-typeset .md-button--primary {
+  background: #4dd0e1;
+  border-color: #4dd0e1;
+  color: #0e1018;
+}
+
+/* ── Footer ── */
+.md-footer {
+  background: #0d0f17 !important;
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+
+.md-footer-meta {
+  background: #0a0c14 !important;
+}
+
+/* ── Scrollbar (webkit) ── */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #12141d;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.15);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(77,208,225,0.4);
+}
+
+/* ── "Back to top" button ── */
+.md-top {
+  background: #1e2133 !important;
+  color: #4dd0e1 !important;
+  border: 1px solid rgba(77,208,225,0.3) !important;
+  border-radius: 8px !important;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4) !important;
+}
