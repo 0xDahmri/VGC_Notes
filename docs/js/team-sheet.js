@@ -134,7 +134,12 @@
     if (!inp) return;
     tsUpdateTabName(i);
     showDrop(i, inp, acFilter(inp.value));
-    if (!inp.value.trim()) { tsSetSprite(i, null); tsSetTypes(i, null); }
+    if (!inp.value.trim()) {
+      tsSetSprite(i, null);
+      tsSetTypes(i, null);
+      const spdEl = document.getElementById(`pk${i}-SPD`);
+      if (spdEl) spdEl.value = '';
+    }
   };
 
   window.tsNameBlur = function () {
@@ -185,9 +190,9 @@
   function tsAutoFillSpeed(i, poke) {
     const sp = window.calcSpeed(poke.base);
     const spdEl = document.getElementById(`pk${i}-SPD`);
-    if (spdEl && !spdEl.value) spdEl.value = `${sp.neutral0}–${sp.maxSpeed}`;
+    if (spdEl) spdEl.value = `${sp.neutral0}–${sp.maxSpeed}`;
     const notesEl = document.getElementById(`pk${i}-notes`);
-    if (notesEl && !notesEl.value) {
+    if (notesEl) {
       const line1 = `${poke.name} (B${poke.base}): ${sp.minus0}–${sp.maxSpeed} | 0SP: ${sp.neutral0} | +32SP: ${sp.neutral32}`;
       const line2 = `Scarf: ${sp.scarfNeutral32}(+32SP) / ${sp.scarfMax}(max)`;
       notesEl.value = `${line1}\n${line2}`;
