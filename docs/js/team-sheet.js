@@ -1,7 +1,7 @@
 (function () {
   if (!document.getElementById('ts-container')) return;
 
-  const KEY = 'vgc-team-sheet-v1';
+  const KEY = 'vgc-team-sheet-v2';
   const SPR = '../../images/sprites/';
 
   const selected = [null, null, null, null, null, null];
@@ -122,7 +122,7 @@
         </div>
         <div class="ts-notes-area">
           <div class="ts-vert-label">NOTES</div>
-          <textarea id="pk${i}-notes" rows="4"></textarea>
+          <textarea id="pk${i}-notes" rows="3"></textarea>
         </div>
       </div>`;
   }
