@@ -108,6 +108,7 @@
     refreshHeaders();
     stickyHeaderTop();
     window.addEventListener('resize', stickyHeaderTop);
+    window.addEventListener('load', stickyHeaderTop);
   }
 
   function stickyHeaderTop() {
