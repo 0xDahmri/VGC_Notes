@@ -1,12 +1,4 @@
-/* ── Hero / controls bar ── */
-.ts-controls {
-  display: flex;
-  gap: 0.75rem;
-  margin-bottom: 1.5rem;
-  flex-wrap: wrap;
-  align-items: center;
-}
-
+/* ── Controls bar ── */
 .sheet-controls {
   display: flex;
   gap: 0.75rem;
@@ -42,7 +34,7 @@
   background: #171924;
   border: 1px solid rgba(255,255,255,0.07);
   border-radius: 10px;
-  overflow: hidden;
+  /* No overflow:hidden — would clip the autocomplete dropdown */
 }
 
 .ts-overview th {
@@ -94,27 +86,22 @@
   flex-shrink: 0;
 }
 
-.ts-ac-wrap {
-  position: relative;
+.ts-ov-poke input {
   flex: 1;
   min-width: 0;
 }
 
-/* ── Autocomplete dropdown ── */
+/* ── Autocomplete dropdown (body-level, position:fixed set by JS) ── */
 .ts-ac-drop {
+  position: fixed;
+  z-index: 9999;
   display: none;
-  position: absolute;
-  top: 100%;
-  left: 0;
-  right: 0;
-  z-index: 100;
   background: #1e2233;
-  border: 1px solid rgba(77,208,225,0.25);
+  border: 1px solid rgba(77,208,225,0.3);
   border-radius: 8px;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.5);
-  overflow: hidden;
-  max-height: 260px;
+  box-shadow: 0 8px 28px rgba(0,0,0,0.6);
   overflow-y: auto;
+  max-height: 260px;
 }
 
 .ts-ac-item {
@@ -332,7 +319,7 @@
 
 .ts-notes-area textarea:focus { border-bottom-color: #4dd0e1; }
 
-/* ── Fill Speed Ranges button ── */
+/* ── Fill Speed button ── */
 .ts-speed-btn {
   padding: 0.3rem 0.5rem;
   border: 1px solid rgba(77,208,225,0.4);
