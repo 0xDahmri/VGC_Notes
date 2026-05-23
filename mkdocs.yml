@@ -28,6 +28,9 @@ theme:
     - content.code.copy
 
 
+extra_css:
+  - css/team-sheet.css
+
 plugins:
   - search
 
@@ -55,6 +58,8 @@ nav:
     - Before the Match: where-to-start/before-the-match.md
     - Meta Decisions: where-to-start/meta-decisions.md
     - Handling Archetypes: where-to-start/handling-archetypes.md
+  - Tools:
+    - Team Sheet: tools/team-sheet.md
   - Guides:
     - EV Spreads: guides/ev-spreads.md
   - Teams:

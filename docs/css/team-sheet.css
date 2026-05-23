@@ -1,0 +1,234 @@
+/* ── Controls ── */
+.sheet-controls {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.sheet-controls button {
+  padding: 0.45rem 1.2rem;
+  border: 1.5px solid var(--md-primary-fg-color);
+  border-radius: 4px;
+  background: transparent;
+  color: var(--md-primary-fg-color);
+  font-weight: 700;
+  font-size: 0.8rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.sheet-controls button:hover {
+  background: var(--md-primary-fg-color);
+  color: var(--md-primary-bg-color, #fff);
+}
+
+/* ── Overview table ── */
+.ts-overview {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1.25rem;
+  font-size: 0.82rem;
+  table-layout: fixed;
+}
+
+.ts-overview th {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  padding: 0.35rem 0.5rem;
+  border: 1px solid var(--md-default-fg-color--lightest);
+  background: var(--md-code-bg-color);
+  text-align: left;
+}
+
+.ts-overview td {
+  border: 1px solid var(--md-default-fg-color--lightest);
+  padding: 0.2rem 0.4rem;
+}
+
+.ts-overview td input {
+  width: 100%;
+  border: none;
+  background: transparent;
+  color: inherit;
+  font-size: 0.85rem;
+  outline: none;
+  padding: 0.1rem 0;
+}
+
+/* ── Section ── */
+.ts-section {
+  border-top: 1.5px solid var(--md-default-fg-color--light);
+  padding-top: 0.6rem;
+  margin-bottom: 0.5rem;
+}
+
+/* ── Stats row ── */
+.ts-stats-area {
+  display: grid;
+  grid-template-columns: 2rem repeat(7, 1fr);
+  gap: 0.25rem 0.4rem;
+  align-items: start;
+  margin-bottom: 0.5rem;
+}
+
+.ts-stat-icon {
+  width: 1.6rem;
+  height: 1.6rem;
+  border: 2px solid var(--md-default-fg-color--light);
+  border-radius: 50%;
+  align-self: center;
+}
+
+.ts-stat-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.15rem;
+}
+
+.ts-stat-label {
+  font-size: 0.63rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--md-default-fg-color--light);
+  white-space: nowrap;
+}
+
+.ts-stat-col input {
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid var(--md-default-fg-color--light);
+  background: transparent;
+  color: inherit;
+  font-size: 0.9rem;
+  text-align: center;
+  outline: none;
+  padding: 0.1rem 0;
+}
+
+/* ── Moves row ── */
+.ts-moves-area {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.4rem;
+  margin-bottom: 0.4rem;
+}
+
+.ts-check {
+  width: 1rem;
+  height: 1rem;
+  border: 1.5px solid var(--md-default-fg-color--light);
+  flex-shrink: 0;
+  margin-top: 0.25rem;
+}
+
+.ts-vert-label {
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--md-default-fg-color--light);
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  flex-shrink: 0;
+  align-self: center;
+}
+
+.ts-move-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.4rem;
+  flex: 1;
+}
+
+.ts-move-slot {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.ts-field-label {
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--md-default-fg-color--light);
+}
+
+.ts-type-lbl {
+  margin-top: 0.2rem;
+}
+
+.ts-move-slot input {
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid var(--md-default-fg-color--light);
+  background: transparent;
+  color: inherit;
+  font-size: 0.82rem;
+  outline: none;
+  padding: 0.1rem 0;
+}
+
+/* ── Notes row ── */
+.ts-notes-area {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.ts-notes-area textarea {
+  flex: 1;
+  border: none;
+  border-bottom: 1px solid var(--md-default-fg-color--light);
+  background: transparent;
+  color: inherit;
+  font-family: inherit;
+  font-size: 0.85rem;
+  resize: none;
+  outline: none;
+  line-height: 2;
+  padding: 0;
+}
+
+/* ── Print ── */
+@media print {
+  .md-header,
+  .md-sidebar--primary,
+  .md-sidebar--secondary,
+  .md-footer,
+  .md-tabs,
+  .no-print,
+  .sheet-controls {
+    display: none !important;
+  }
+
+  .md-main__inner {
+    margin-top: 0 !important;
+  }
+
+  .md-content {
+    max-width: 100% !important;
+  }
+
+  .md-content__inner {
+    padding: 0.75rem !important;
+    margin: 0 !important;
+  }
+
+  .ts-section {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  * {
+    color: #000 !important;
+    border-color: #aaa !important;
+    background: transparent !important;
+  }
+}
