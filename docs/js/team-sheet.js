@@ -6,9 +6,10 @@
   function buildOverview() {
     const cols = ['POKÉMON', 'TYPE', 'ABILITY', 'NATURE', 'HELD ITEM'];
     const rows = [0,1,2,3,4,5].map(i => {
-      const cells = ['name','type','ability','nature','item'].map(f =>
-        `<td><input type="text" id="ov${i}-${f}" autocomplete="off"></td>`
-      ).join('');
+      const cells = ['name','type','ability','nature','item'].map(f => {
+        const extra = f === 'name' ? ` oninput="tsUpdateTabName(${i})"` : '';
+        return `<td><input type="text" id="ov${i}-${f}" autocomplete="off"${extra}></td>`;
+      }).join('');
       return `<tr>${cells}</tr>`;
     }).join('');
 
@@ -17,6 +18,17 @@
         <thead><tr>${cols.map(c => `<th>${c}</th>`).join('')}</tr></thead>
         <tbody>${rows}</tbody>
       </table>`;
+  }
+
+  function buildTabBar() {
+    const tabs = [0,1,2,3,4,5].map(i =>
+      `<button class="ts-tab${i === 0 ? ' ts-tab--active' : ''}"
+               id="ts-tab-${i}"
+               onclick="tsSwitchTab(${i})">
+        <span id="ts-tab-name-${i}">${i + 1}</span>
+       </button>`
+    ).join('');
+    return `<div class="ts-tab-bar">${tabs}</div>`;
   }
 
   function buildSection(i) {
@@ -39,28 +51,42 @@
       </div>`).join('');
 
     return `
-      <div class="ts-section">
-        <div class="ts-stats-area">
-          ${statCols}
-        </div>
+      <div class="ts-section${i === 0 ? ' ts-section--active' : ''}" id="ts-section-${i}">
+        <div class="ts-stats-area">${statCols}</div>
         <div class="ts-moves-area">
           <div class="ts-vert-label">MOVES</div>
           <div class="ts-move-grid">${moves}</div>
         </div>
         <div class="ts-notes-area">
           <div class="ts-vert-label">NOTES</div>
-          <textarea id="pk${i}-notes" rows="2"></textarea>
+          <textarea id="pk${i}-notes" rows="3"></textarea>
         </div>
       </div>`;
   }
+
+  /* ── Tab switching ── */
+
+  window.tsSwitchTab = function (idx) {
+    document.querySelectorAll('.ts-tab').forEach((t, i) =>
+      t.classList.toggle('ts-tab--active', i === idx));
+    document.querySelectorAll('.ts-section').forEach((s, i) =>
+      s.classList.toggle('ts-section--active', i === idx));
+  };
+
+  window.tsUpdateTabName = function (i) {
+    const val = (document.getElementById(`ov${i}-name`) || {}).value || '';
+    const label = document.getElementById(`ts-tab-name-${i}`);
+    if (label) label.textContent = val.trim() || String(i + 1);
+  };
 
   /* ── DOM injection ── */
 
   function build() {
     const c = document.getElementById('ts-container');
     if (!c) return;
-    c.innerHTML = buildOverview() + [0,1,2,3,4,5].map(buildSection).join('');
+    c.innerHTML = buildOverview() + buildTabBar() + [0,1,2,3,4,5].map(buildSection).join('');
     load();
+    [0,1,2,3,4,5].forEach(tsUpdateTabName);
     c.addEventListener('input', save);
   }
 
@@ -88,6 +114,10 @@
   window.clearSheet = function () {
     if (!confirm('Clear all notes for the next game?')) return;
     fields().forEach(f => { f.value = ''; });
+    [0,1,2,3,4,5].forEach(i => {
+      const label = document.getElementById(`ts-tab-name-${i}`);
+      if (label) label.textContent = String(i + 1);
+    });
     try { localStorage.removeItem(KEY); } catch(e) {}
   };
 

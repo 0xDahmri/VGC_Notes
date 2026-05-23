@@ -59,11 +59,48 @@
   padding: 0.1rem 0;
 }
 
+/* ── Tab bar ── */
+.ts-tab-bar {
+  display: flex;
+  gap: 0.15rem;
+  border-bottom: 2px solid var(--md-default-fg-color--lightest);
+  margin-bottom: 0;
+}
+
+.ts-tab {
+  padding: 0.45rem 0.9rem;
+  border: none;
+  border-bottom: 3px solid transparent;
+  background: transparent;
+  color: var(--md-default-fg-color--light);
+  font-weight: 700;
+  font-size: 0.82rem;
+  cursor: pointer;
+  margin-bottom: -2px;
+  max-width: 10rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.ts-tab:hover {
+  color: var(--md-primary-fg-color);
+}
+
+.ts-tab--active {
+  color: var(--md-primary-fg-color);
+  border-bottom-color: var(--md-primary-fg-color);
+}
+
 /* ── Section ── */
 .ts-section {
-  border-top: 1.5px solid var(--md-default-fg-color--light);
-  padding-top: 0.6rem;
-  margin-bottom: 0.5rem;
+  display: none;
+  padding-top: 0.75rem;
+}
+
+.ts-section--active {
+  display: block;
 }
 
 /* ── Stats row ── */
@@ -205,9 +242,17 @@
     margin: 0 !important;
   }
 
+  .ts-tab-bar {
+    display: none !important;
+  }
+
   .ts-section {
+    display: block !important;
     page-break-inside: avoid;
     break-inside: avoid;
+    border-top: 1px solid #aaa;
+    padding-top: 0.5rem;
+    margin-bottom: 0.5rem;
   }
 
   * {
