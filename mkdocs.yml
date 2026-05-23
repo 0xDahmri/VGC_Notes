@@ -27,8 +27,6 @@ theme:
     - search.suggest
     - content.code.copy
 
-extra_css:
-  - css/champions-calc.css
 
 plugins:
   - search
@@ -57,8 +55,6 @@ nav:
     - Before the Match: where-to-start/before-the-match.md
     - Meta Decisions: where-to-start/meta-decisions.md
     - Handling Archetypes: where-to-start/handling-archetypes.md
-  - Tools:
-    - Damage Calculator: tools/damage-calculator.md
   - Guides:
     - EV Spreads: guides/ev-spreads.md
   - Teams:
