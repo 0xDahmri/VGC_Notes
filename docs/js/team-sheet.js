@@ -41,11 +41,9 @@
     return `
       <div class="ts-section">
         <div class="ts-stats-area">
-          <div class="ts-stat-icon"></div>
           ${statCols}
         </div>
         <div class="ts-moves-area">
-          <div class="ts-check"></div>
           <div class="ts-vert-label">MOVES</div>
           <div class="ts-move-grid">${moves}</div>
         </div>

@@ -69,18 +69,10 @@
 /* ── Stats row ── */
 .ts-stats-area {
   display: grid;
-  grid-template-columns: 2rem repeat(7, 1fr);
+  grid-template-columns: repeat(7, 1fr);
   gap: 0.25rem 0.4rem;
   align-items: start;
   margin-bottom: 0.5rem;
-}
-
-.ts-stat-icon {
-  width: 1.6rem;
-  height: 1.6rem;
-  border: 2px solid var(--md-default-fg-color--light);
-  border-radius: 50%;
-  align-self: center;
 }
 
 .ts-stat-col {
@@ -117,14 +109,6 @@
   align-items: flex-start;
   gap: 0.4rem;
   margin-bottom: 0.4rem;
-}
-
-.ts-check {
-  width: 1rem;
-  height: 1rem;
-  border: 1.5px solid var(--md-default-fg-color--light);
-  flex-shrink: 0;
-  margin-top: 0.25rem;
 }
 
 .ts-vert-label {
