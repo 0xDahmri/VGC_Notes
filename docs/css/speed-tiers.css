@@ -118,6 +118,9 @@
   border-bottom: 1px solid rgba(255,255,255,0.07) !important;
   vertical-align: middle !important;
   transition: color 0.12s !important;
+  position: sticky !important;
+  top: 0 !important; /* overridden by JS to account for nav height */
+  z-index: 15 !important;
 }
 
 .st-wrap .st-table th.st-th:hover { color: rgba(255,255,255,0.85) !important; }
@@ -127,7 +130,7 @@
   text-align: left !important;
   position: sticky !important;
   left: 0 !important;
-  z-index: 10 !important;
+  z-index: 20 !important; /* corner: highest — sticky both axes */
   min-width: 190px !important;
 }
 
@@ -155,7 +158,7 @@
   text-align: left !important;
   position: sticky !important;
   left: 0 !important;
-  z-index: 5 !important;
+  z-index: 5 !important; /* below all thead z-indexes */
   background: #171924 !important;
 }
 
