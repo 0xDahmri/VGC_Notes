@@ -34,7 +34,10 @@
     return rows.map(r => `<tr>
       <td class="st-name-td"><div class="st-poke">
         <img class="st-sprite" src="${SPR}${r.spriteKey}.png" alt="" loading="lazy" onerror="this.style.visibility='hidden'">
-        <div><div class="st-pname">${r.name}</div><div class="st-bspe">Base ${r.base}</div></div>
+        <div>
+          <div class="st-pname">${r.name}</div>
+          <div class="st-type-row">${r.types.map(t => `<span class="ts-type-badge ts-type-${t.toLowerCase()}">${t}</span>`).join('')}</div>
+        </div>
       </div></td>
       ${COLS.map(c => `<td class="${c.cls}">${r[c.key]}</td>`).join('')}
     </tr>`).join('');

@@ -38,7 +38,7 @@
 }
 
 .ts-overview th {
-  font-size: 0.65rem;
+  font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.07em;
   text-transform: uppercase;
@@ -53,7 +53,7 @@
 .ts-overview td {
   border: none;
   border-bottom: 1px solid rgba(255,255,255,0.05);
-  padding: 0.25rem 0.5rem;
+  padding: 0.35rem 0.5rem;
   background: #171924;
 }
 
@@ -207,7 +207,7 @@
 }
 
 .ts-stat-label {
-  font-size: 0.62rem;
+  font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.05em;
   text-transform: uppercase;
@@ -218,7 +218,7 @@
 .ts-stat-col input {
   width: 100%;
   border: none;
-  border-bottom: 1px solid rgba(255,255,255,0.15);
+  border-bottom: 1.5px solid rgba(255,255,255,0.15);
   background: transparent;
   color: rgba(255,255,255,0.87);
   font-size: 0.9rem;
@@ -243,7 +243,7 @@
 }
 
 .ts-vert-label {
-  font-size: 0.57rem;
+  font-size: 0.65rem;
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -268,7 +268,7 @@
 }
 
 .ts-field-label {
-  font-size: 0.59rem;
+  font-size: 0.68rem;
   font-weight: 700;
   letter-spacing: 0.04em;
   text-transform: uppercase;
@@ -280,7 +280,7 @@
 .ts-move-slot input {
   width: 100%;
   border: none;
-  border-bottom: 1px solid rgba(255,255,255,0.15);
+  border-bottom: 1.5px solid rgba(255,255,255,0.15);
   background: transparent;
   color: rgba(255,255,255,0.87);
   font-size: 0.82rem;
