@@ -117,7 +117,8 @@
   cursor: pointer !important;
   user-select: none !important;
   border: none !important;
-  border-bottom: 1px solid rgba(255,255,255,0.07) !important;
+  border-bottom: 2px solid rgba(77,208,225,0.35) !important;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.6) !important;
   transition: color 0.12s !important;
   position: sticky !important;
   top: 0;
