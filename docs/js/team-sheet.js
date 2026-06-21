@@ -63,6 +63,7 @@
     const { type, slot } = _dropCtx;
     const field = document.getElementById(type === 'ability' ? `ov${slot}-ability` : `ov${slot}-item`);
     if (field) field.value = value;
+    if (type === 'item') tsRefreshSpeed(slot);
     hideDrop();
     save();
   };
@@ -92,10 +93,12 @@
     const inp = document.getElementById(`ov${i}-item`);
     if (!inp) return;
     const q = inp.value.toLowerCase().trim();
-    if (!q) { hideDrop(); return; }
-    const filtered = (window.VGC_ITEMS || []).filter(it => it.toLowerCase().includes(q)).slice(0, 12);
-    _dropCtx = { type: 'item', slot: i };
-    showSimpleDrop(inp, filtered);
+    if (!q) { hideDrop(); } else {
+      const filtered = (window.VGC_ITEMS || []).filter(it => it.toLowerCase().includes(q)).slice(0, 12);
+      _dropCtx = { type: 'item', slot: i };
+      showSimpleDrop(inp, filtered);
+    }
+    tsRefreshSpeed(i);
   };
 
   function acFilter(query) {
@@ -121,7 +124,8 @@
       const typeCell = `<td class="ts-ov-type-cell"><div class="ts-type-display" id="ov${i}-types"></div></td>`;
       const rest = ['ability', 'nature', 'item'].map(f => {
         if (f === 'ability') return `<td><input type="text" id="ov${i}-ability" autocomplete="off" onfocus="tsAbilityFocus(${i})" oninput="tsAbilityInput(${i})" onblur="tsNameBlur()"></td>`;
-        if (f === 'item')    return `<td><input type="text" id="ov${i}-item"    autocomplete="off" oninput="tsItemInput(${i})"    onblur="tsNameBlur()"></td>`;
+        if (f === 'nature')  return `<td><input type="text" id="ov${i}-nature" autocomplete="off" oninput="tsRefreshSpeed(${i})"></td>`;
+        if (f === 'item')    return `<td><input type="text" id="ov${i}-item"   autocomplete="off" oninput="tsItemInput(${i})" onblur="tsNameBlur()"></td>`;
         return `<td><input type="text" id="ov${i}-${f}" autocomplete="off"></td>`;
       }).join('');
       return `<tr>${nameCell}${typeCell}${rest}</tr>`;
@@ -214,7 +218,7 @@
     tsSetSprite(i, poke);
     tsSetTypes(i, poke);
     if (poke) {
-      tsAutoFillSpeed(i, poke);
+      tsRefreshSpeed(i);
       const abilities = (window.ABILITIES_DATA || {})[poke.name] || [];
       const abilityEl = document.getElementById(`ov${i}-ability`);
       if (abilityEl) abilityEl.value = abilities.length === 1 ? abilities[0] : '';
@@ -250,19 +254,42 @@
     ).join('');
   }
 
-  /* ── Speed auto-fill ── */
+  /* ── Speed auto-fill (nature + item aware) ── */
 
-  function tsAutoFillSpeed(i, poke) {
-    const sp = window.calcSpeed(poke.base);
+  const SPEED_PLUS  = new Set(['Timid', 'Jolly', 'Hasty', 'Naive']);
+  const SPEED_MINUS = new Set(['Brave', 'Relaxed', 'Quiet', 'Sassy']);
+
+  window.tsRefreshSpeed = function (i) {
+    const poke = selected[i];
+    if (!poke) return;
+    const sp     = window.calcSpeed(poke.base);
+    const nature = ((document.getElementById(`ov${i}-nature`) || {}).value || '').trim();
+    const item   = ((document.getElementById(`ov${i}-item`)   || {}).value || '').trim();
+
+    const mul   = SPEED_PLUS.has(nature) ? 1.1 : SPEED_MINUS.has(nature) ? 0.9 : 1.0;
+    const scarf = /choice scarf/i.test(item);
+
+    const lo = Math.floor(Math.floor(sp.neutral0  * mul) * (scarf ? 1.5 : 1));
+    const hi = Math.floor(Math.floor(sp.neutral32 * mul) * (scarf ? 1.5 : 1));
+
     const spdEl = document.getElementById(`pk${i}-SPD`);
-    if (spdEl) spdEl.value = `${sp.neutral0}–${sp.maxSpeed}`;
+    if (spdEl) spdEl.value = lo === hi ? String(lo) : `${lo}–${hi}`;
+
     const notesEl = document.getElementById(`pk${i}-notes`);
-    if (notesEl) {
-      const line1 = `${poke.name} (B${poke.base}): ${sp.minus0}–${sp.maxSpeed} | 0SP: ${sp.neutral0} | +32SP: ${sp.neutral32}`;
-      const line2 = `Scarf: ${sp.scarfNeutral32}(+32SP) / ${sp.scarfMax}(max)`;
-      notesEl.value = `${line1}\n${line2}`;
-    }
-  }
+    if (!notesEl) return;
+
+    const ctx = [
+      SPEED_PLUS.has(nature)  ? `+${nature}` : SPEED_MINUS.has(nature) ? `-${nature}` : '',
+      scarf ? 'Scarf' : ''
+    ].filter(Boolean).join(', ');
+
+    const line1 = `${poke.name} (B${poke.base})${ctx ? ` [${ctx}]` : ''}: ${sp.minus0}–${sp.maxSpeed} | 0SP: ${sp.neutral0} | +32SP: ${sp.neutral32}`;
+    const line2 = `Scarf: ${sp.scarfNeutral32}(+32SP) / ${sp.scarfMax}(max)`;
+    const lines = notesEl.value.split('\n');
+    lines[0] = line1;
+    if (lines.length < 2) lines.push(line2); else lines[1] = line2;
+    notesEl.value = lines.join('\n');
+  };
 
   /* ── Tab switching ── */
 
@@ -296,6 +323,7 @@
         selected[i] = poke;
         tsSetSprite(i, poke);
         tsSetTypes(i, poke);
+        if (poke) tsRefreshSpeed(i);
       }
     });
     c.addEventListener('input', save);

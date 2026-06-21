@@ -109,20 +109,6 @@
     });
 
     refreshHeaders();
-    stickyHeaderTop();
-    window.addEventListener('resize', stickyHeaderTop);
-    window.addEventListener('load', stickyHeaderTop);
-  }
-
-  function stickyHeaderTop() {
-    const header = document.querySelector('.md-header');
-    const tabs   = document.querySelector('.md-tabs');
-    let top = 0;
-    if (header) top += header.offsetHeight;
-    if (tabs)   top += tabs.offsetHeight;
-    document.querySelectorAll('.st-wrap .st-table th').forEach(th => {
-      th.style.top = top + 'px';
-    });
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
