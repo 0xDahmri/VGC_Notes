@@ -6,6 +6,7 @@
     <button onclick="clearSheet()">Clear Sheet</button>
     <button onclick="saveSheet()">Print / Save PDF</button>
     <button onclick="importTeam()">Import Team</button>
+    <button id="sc-toggle-btn" onclick="scToggle()">Compare Teams</button>
   </div>
 </div>
 

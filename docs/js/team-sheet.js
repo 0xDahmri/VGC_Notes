@@ -350,7 +350,7 @@
 
     const c = document.getElementById('ts-container');
     if (!c) return;
-    c.innerHTML = buildOverview() + buildTabBar() + [0,1,2,3,4,5].map(buildSection).join('');
+    c.innerHTML = buildOverview() + buildComparePanel() + buildTabBar() + [0,1,2,3,4,5].map(buildSection).join('');
     load();
     [0,1,2,3,4,5].forEach(i => {
       tsUpdateTabName(i);
@@ -561,6 +561,126 @@ Jolly Nature
       : `Imported ${total} Pokémon successfully!`;
     setStatus(msg, unmatched ? 'ts-modal-warn' : 'ts-modal-success');
     setTimeout(tsCloseImport, 2000);
+  };
+
+  /* ── Team Speed Comparison ── */
+
+  const NAT_MUL = { '+': 1.1, 'n': 1.0, '-': 0.9 };
+
+  function slotSpeed(name, natKey, scarf) {
+    const poke = DATA.find(p => p.name.toLowerCase() === name.toLowerCase().trim());
+    if (!poke) return null;
+    const sp  = window.calcSpeed(poke.base);
+    const spd = Math.floor(sp.neutral32 * (NAT_MUL[natKey] || 1.0));
+    return { name: poke.name, speed: scarf ? Math.floor(spd * 1.5) : spd };
+  }
+
+  function buildCompareCols(prefix, count) {
+    let html = '';
+    for (let i = 0; i < count; i++) {
+      html += `<div class="sc-slot">
+        <input type="text" list="sc-datalist" id="${prefix}-name-${i}" placeholder="Pokémon ${i + 1}" autocomplete="off">
+        <select id="${prefix}-nat-${i}">
+          <option value="n">Neutral</option>
+          <option value="+">+SPE</option>
+          <option value="-">−SPE</option>
+        </select>
+        <label class="sc-scarf-lbl"><input type="checkbox" id="${prefix}-scarf-${i}"> Scarf</label>
+      </div>`;
+    }
+    return html;
+  }
+
+  function buildComparePanel() {
+    const allNames = DATA.map(p => `<option value="${p.name}"></option>`).join('');
+    return `<div class="sc-panel no-print" id="sc-panel">
+      <datalist id="sc-datalist">${allNames}</datalist>
+      <div class="sc-panel-title">Team Speed Comparison</div>
+      <div class="sc-teams">
+        <div>
+          <div class="sc-team-col-title">
+            My Team
+            <button onclick="scLoadMyTeam()" style="margin-left:0.5rem;padding:0.2rem 0.55rem;font-size:0.7rem;border:1px solid rgba(77,208,225,0.4);border-radius:4px;background:transparent;color:#4dd0e1;cursor:pointer;">Load from Sheet</button>
+          </div>
+          ${buildCompareCols('sc-my', 6)}
+        </div>
+        <div>
+          <div class="sc-team-col-title">Opponent's Team</div>
+          ${buildCompareCols('sc-opp', 6)}
+        </div>
+      </div>
+      <button class="sc-run-btn" onclick="scCompare()">Compare Speeds</button>
+      <div id="sc-result"></div>
+    </div>`;
+  }
+
+  window.scToggle = function () {
+    const panel = document.getElementById('sc-panel');
+    const btn   = document.getElementById('sc-toggle-btn');
+    if (!panel || !btn) return;
+    const open = panel.classList.toggle('sc-open');
+    btn.textContent = open ? 'Hide Comparison' : 'Compare Teams';
+  };
+
+  window.scLoadMyTeam = function () {
+    for (let i = 0; i < 6; i++) {
+      const nameEl   = document.getElementById(`ov${i}-name`);
+      const natEl    = document.getElementById(`ov${i}-nature`);
+      const itemEl   = document.getElementById(`ov${i}-item`);
+      const cmpName  = document.getElementById(`sc-my-name-${i}`);
+      const cmpNat   = document.getElementById(`sc-my-nat-${i}`);
+      const cmpScarf = document.getElementById(`sc-my-scarf-${i}`);
+      if (cmpName && nameEl) cmpName.value = nameEl.value;
+      if (cmpNat && natEl) {
+        const nat = natEl.value;
+        const PLUS  = ['Timid','Jolly','Hasty','Naive'];
+        const MINUS = ['Brave','Relaxed','Quiet','Sassy'];
+        cmpNat.value = PLUS.includes(nat) ? '+' : MINUS.includes(nat) ? '-' : 'n';
+      }
+      if (cmpScarf && itemEl && /choice scarf/i.test(itemEl.value)) cmpScarf.checked = true;
+    }
+  };
+
+  window.scCompare = function () {
+    const resultEl = document.getElementById('sc-result');
+    if (!resultEl) return;
+    const mySlots = [], oppSlots = [];
+    for (let i = 0; i < 6; i++) {
+      const myName  = (document.getElementById(`sc-my-name-${i}`)?.value  || '').trim();
+      const myNat   = document.getElementById(`sc-my-nat-${i}`)?.value  || 'n';
+      const myScarf = document.getElementById(`sc-my-scarf-${i}`)?.checked || false;
+      if (myName) mySlots.push(slotSpeed(myName, myNat, myScarf) || { name: myName, speed: null });
+      const oppName  = (document.getElementById(`sc-opp-name-${i}`)?.value || '').trim();
+      const oppNat   = document.getElementById(`sc-opp-nat-${i}`)?.value || 'n';
+      const oppScarf = document.getElementById(`sc-opp-scarf-${i}`)?.checked || false;
+      if (oppName) oppSlots.push(slotSpeed(oppName, oppNat, oppScarf) || { name: oppName, speed: null });
+    }
+    if (!mySlots.length || !oppSlots.length) {
+      resultEl.innerHTML = `<p class="sc-empty-note">Enter at least one Pokémon in each team to compare.</p>`;
+      return;
+    }
+    const oppHeaders = oppSlots.map(o => {
+      const spd = o.speed !== null ? ` <span style="color:rgba(255,255,255,0.4);font-weight:400">(${o.speed})</span>` : '';
+      return `<th class="sc-opp-header">${o.name}${spd}</th>`;
+    }).join('');
+    const bodyRows = mySlots.map(m => {
+      const mSpd = m.speed !== null ? ` <span style="color:rgba(255,255,255,0.4);font-weight:400">(${m.speed})</span>` : '';
+      const cells = oppSlots.map(o => {
+        if (m.speed === null || o.speed === null) return `<td class="sc-cell-tie">?</td>`;
+        if (m.speed > o.speed) return `<td class="sc-cell-win" title="${m.speed} > ${o.speed}">✓ Faster</td>`;
+        if (m.speed < o.speed) return `<td class="sc-cell-lose" title="${m.speed} < ${o.speed}">✗ Slower</td>`;
+        return `<td class="sc-cell-tie" title="${m.speed} = ${o.speed}">= Tied</td>`;
+      }).join('');
+      return `<tr><td class="sc-row-label">${m.name}${mSpd}</td>${cells}</tr>`;
+    }).join('');
+    resultEl.innerHTML = `
+      <div class="sc-matrix-wrap"><table class="sc-matrix">
+        <thead><tr><th class="sc-mine-header">My Team</th>${oppHeaders}</tr></thead>
+        <tbody>${bodyRows}</tbody>
+      </table></div>
+      <p style="font-size:0.72rem;color:rgba(255,255,255,0.3);margin-top:0.5rem;">
+        ✓ = your Pokémon moves first &nbsp;|&nbsp; ✗ = opponent moves first
+      </p>`;
   };
 
   /* ── Init ── */
