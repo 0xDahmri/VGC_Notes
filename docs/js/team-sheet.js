@@ -3,6 +3,24 @@
 
   const KEY = 'vgc-team-sheet-v2';
   const SPR = '../../images/sprites/';
+  const ITEM_SPR = 'https://play.pokemonshowdown.com/sprites/itemicons/';
+
+  function itemIconUrl(name) {
+    const key = name.toLowerCase().replace(/[^a-z0-9]/g, '');
+    return ITEM_SPR + key + '.png';
+  }
+
+  function tsSetItemIcon(i, name) {
+    const img = document.getElementById(`ov${i}-item-icon`);
+    if (!img) return;
+    if (name && name.trim()) {
+      img.src = itemIconUrl(name.trim());
+      img.style.display = 'inline-block';
+    } else {
+      img.src = '';
+      img.style.display = 'none';
+    }
+  }
 
   const selected = [null, null, null, null, null, null];
   let DATA = [];
@@ -43,17 +61,20 @@
     _dropCtx = null;
   }
 
-  function showSimpleDrop(inputEl, options) {
+  function showSimpleDrop(inputEl, options, iconFn) {
     _dropOptions = options;
     const drop = getDrop();
     if (!options.length) { hideDrop(); return; }
-    drop.innerHTML = options.map((opt, idx) =>
-      `<div class="ts-ac-item" onmousedown="tsSimpleSelect(${idx})"><span>${opt}</span></div>`
-    ).join('');
+    drop.innerHTML = options.map((opt, idx) => {
+      const icon = iconFn
+        ? `<img class="ts-ac-item-icon" src="${iconFn(opt)}" alt="" onerror="this.style.display='none'">`
+        : '';
+      return `<div class="ts-ac-item" onmousedown="tsSimpleSelect(${idx})">${icon}<span>${opt}</span></div>`;
+    }).join('');
     const r = inputEl.getBoundingClientRect();
     drop.style.left    = r.left + 'px';
     drop.style.top     = (r.bottom + 2) + 'px';
-    drop.style.width   = Math.max(200, r.width) + 'px';
+    drop.style.width   = Math.max(220, r.width) + 'px';
     drop.style.display = 'block';
   }
 
@@ -63,7 +84,10 @@
     const { type, slot } = _dropCtx;
     const field = document.getElementById(type === 'ability' ? `ov${slot}-ability` : `ov${slot}-item`);
     if (field) field.value = value;
-    if (type === 'item') tsRefreshSpeed(slot);
+    if (type === 'item') {
+      tsRefreshSpeed(slot);
+      tsSetItemIcon(slot, value);
+    }
     hideDrop();
     save();
   };
@@ -92,11 +116,14 @@
   window.tsItemInput = function (i) {
     const inp = document.getElementById(`ov${i}-item`);
     if (!inp) return;
-    const q = inp.value.toLowerCase().trim();
+    const val = inp.value;
+    const q   = val.toLowerCase().trim();
+    const exact = (window.VGC_ITEMS || []).find(it => it.toLowerCase() === q);
+    tsSetItemIcon(i, exact || null);
     if (!q) { hideDrop(); } else {
-      const filtered = (window.VGC_ITEMS || []).filter(it => it.toLowerCase().includes(q)).slice(0, 12);
+      const filtered = (window.VGC_ITEMS || []).filter(it => it.toLowerCase().includes(q)).slice(0, 14);
       _dropCtx = { type: 'item', slot: i };
-      showSimpleDrop(inp, filtered);
+      showSimpleDrop(inp, filtered, itemIconUrl);
     }
     tsRefreshSpeed(i);
   };
@@ -125,7 +152,10 @@
       const rest = ['ability', 'nature', 'item'].map(f => {
         if (f === 'ability') return `<td><input type="text" id="ov${i}-ability" autocomplete="off" onfocus="tsAbilityFocus(${i})" oninput="tsAbilityInput(${i})" onblur="tsNameBlur()"></td>`;
         if (f === 'nature')  return `<td><input type="text" id="ov${i}-nature" autocomplete="off" oninput="tsRefreshSpeed(${i})"></td>`;
-        if (f === 'item')    return `<td><input type="text" id="ov${i}-item"   autocomplete="off" oninput="tsItemInput(${i})" onblur="tsNameBlur()"></td>`;
+        if (f === 'item')    return `<td><div class="ts-ov-item-wrap">
+            <img class="ts-item-icon" id="ov${i}-item-icon" src="" alt="" style="display:none" onerror="this.style.display='none'">
+            <input type="text" id="ov${i}-item" autocomplete="off" oninput="tsItemInput(${i})" onblur="tsNameBlur()">
+          </div></td>`;
         return `<td><input type="text" id="ov${i}-${f}" autocomplete="off"></td>`;
       }).join('');
       return `<tr>${nameCell}${typeCell}${rest}</tr>`;
@@ -326,6 +356,10 @@
         if (poke) tsRefreshSpeed(i);
       }
     });
+    [0,1,2,3,4,5].forEach(i => {
+      const itemEl = document.getElementById(`ov${i}-item`);
+      if (itemEl && itemEl.value) tsSetItemIcon(i, itemEl.value);
+    });
     c.addEventListener('input', save);
   }
 
@@ -364,6 +398,163 @@
   };
 
   window.saveSheet = function () { window.print(); };
+
+  /* ── Import Team ── */
+
+  function getImportOverlay() {
+    let ov = document.getElementById('ts-import-overlay');
+    if (ov) return ov;
+    ov = document.createElement('div');
+    ov.className = 'ts-modal-overlay';
+    ov.id = 'ts-import-overlay';
+    ov.innerHTML = `
+      <div class="ts-modal" id="ts-import-modal">
+        <div class="ts-modal-header">
+          <h3>Import Team</h3>
+          <button class="ts-modal-close" onclick="tsCloseImport()" aria-label="Close">&times;</button>
+        </div>
+        <p class="ts-modal-note">
+          Paste your team in Pokémon Showdown export format — from the Showdown teambuilder,
+          Pokepaste, or any tool that exports Showdown-compatible text.
+        </p>
+        <textarea id="ts-import-text" placeholder="Paste your team here…
+
+Example:
+Garchomp @ Dragon Fang
+Ability: Rough Skin
+Level: 50
+EVs: 252 Atk / 4 SpD / 252 Spe
+Jolly Nature
+- Scale Shot
+- Earthquake
+- Protect
+- Stomping Tantrum"></textarea>
+        <div class="ts-modal-status" id="ts-import-status"></div>
+        <div class="ts-modal-actions">
+          <button class="ts-modal-btn ts-modal-cancel" onclick="tsCloseImport()">Cancel</button>
+          <button class="ts-modal-btn ts-modal-submit" onclick="tsDoImport()">Import Team</button>
+        </div>
+      </div>`;
+    ov.addEventListener('click', function (e) { if (e.target === ov) tsCloseImport(); });
+    document.body.appendChild(ov);
+    return ov;
+  }
+
+  window.importTeam = function () {
+    const ov = getImportOverlay();
+    ov.classList.add('ts-modal-open');
+    const ta = document.getElementById('ts-import-text');
+    if (ta) { ta.value = ''; ta.focus(); }
+    const st = document.getElementById('ts-import-status');
+    if (st) { st.textContent = ''; st.className = 'ts-modal-status'; }
+  };
+
+  window.tsCloseImport = function () {
+    const ov = document.getElementById('ts-import-overlay');
+    if (ov) ov.classList.remove('ts-modal-open');
+  };
+
+  function sdNameToOurs(sdName) {
+    const list = window.POKEMON_DATA || [];
+    const lower = sdName.toLowerCase().trim();
+
+    // 1. Exact match
+    let hit = list.find(p => p.name.toLowerCase() === lower);
+    if (hit) return hit;
+
+    // 2. "Species-Mega", "Species-Mega-X/Y" → "Mega Species X/Y"
+    const megaM = sdName.match(/^(.+?)-Mega(?:-(X|Y))?$/i);
+    if (megaM) {
+      const suffix = megaM[2] ? ' ' + megaM[2].toUpperCase() : '';
+      const t = ('Mega ' + megaM[1] + suffix).toLowerCase();
+      hit = list.find(p => p.name.toLowerCase() === t);
+      if (hit) return hit;
+    }
+
+    // 3. Base species before first "-" (e.g. "Ninetales-Alola" → check exact first, then base)
+    const base = sdName.split('-')[0].toLowerCase();
+    hit = list.find(p => p.name.toLowerCase() === base);
+    if (hit) return hit;
+
+    // 4. Contains fallback
+    hit = list.find(p => p.name.toLowerCase().includes(base));
+    return hit || null;
+  }
+
+  function parseShowdownPaste(text) {
+    return text.trim().split(/\n[ \t]*\n+/).slice(0, 6).map(block => {
+      const lines = block.trim().split('\n').filter(l => l.trim());
+      if (!lines.length) return null;
+
+      let name = '', item = '', ability = '', nature = '';
+      const moves = [];
+
+      // First line: [Name (Nickname) @] Item  or  just Name
+      let first = lines[0].trim().replace(/^={2,}.*={2,}$/, '').trim(); // strip ==Title==
+      const atIdx = first.lastIndexOf(' @ ');
+      if (atIdx !== -1) { item = first.slice(atIdx + 3).trim(); first = first.slice(0, atIdx).trim(); }
+      name = first.replace(/\s*\([^)]+\)\s*$/, '').trim(); // remove (Nickname)
+
+      for (let i = 1; i < lines.length; i++) {
+        const l = lines[i].trim();
+        if (/^ability\s*:/i.test(l))  { ability = l.replace(/^ability\s*:\s*/i, '').trim(); continue; }
+        if (/\bnature$/i.test(l))     { nature  = l.replace(/\s*nature$/i, '').trim(); continue; }
+        if (/^-\s/.test(l))           { moves.push(l.slice(2).replace(/\s*\[.*?\]/, '').trim()); }
+      }
+
+      return name ? { name, item, ability, nature, moves } : null;
+    }).filter(Boolean);
+  }
+
+  window.tsDoImport = function () {
+    const ta  = document.getElementById('ts-import-text');
+    const st  = document.getElementById('ts-import-status');
+    const setStatus = (msg, cls) => { if (st) { st.textContent = msg; st.className = 'ts-modal-status ' + cls; } };
+
+    if (!ta || !ta.value.trim()) { setStatus('Paste team data first.', 'ts-modal-error'); return; }
+
+    const parsed = parseShowdownPaste(ta.value);
+    if (!parsed.length) { setStatus('Could not parse any Pokémon — use Showdown export format.', 'ts-modal-error'); return; }
+
+    let matched = 0;
+    parsed.forEach((p, i) => {
+      if (i >= 6) return;
+      const poke = sdNameToOurs(p.name);
+
+      const nameEl = document.getElementById(`ov${i}-name`);
+      if (nameEl) { nameEl.value = poke ? poke.name : p.name; }
+      selected[i] = poke || null;
+      tsSetSprite(i, poke || null);
+      tsSetTypes(i, poke || null);
+      tsUpdateTabName(i);
+      if (poke) matched++;
+
+      const ab = document.getElementById(`ov${i}-ability`);
+      if (ab && p.ability) ab.value = p.ability;
+
+      const nat = document.getElementById(`ov${i}-nature`);
+      if (nat && p.nature) nat.value = p.nature;
+
+      const it = document.getElementById(`ov${i}-item`);
+      if (it && p.item) { it.value = p.item; tsSetItemIcon(i, p.item); }
+
+      p.moves.slice(0, 4).forEach((mv, mi) => {
+        const el = document.getElementById(`pk${i}-mv${mi + 1}`);
+        if (el) el.value = mv;
+      });
+
+      if (poke) tsRefreshSpeed(i);
+    });
+
+    save();
+    const total = parsed.length;
+    const unmatched = total - matched;
+    const msg = unmatched
+      ? `Imported ${total} Pokémon — ${unmatched} name(s) not found in database, check them manually.`
+      : `Imported ${total} Pokémon successfully!`;
+    setStatus(msg, unmatched ? 'ts-modal-warn' : 'ts-modal-success');
+    setTimeout(tsCloseImport, 2000);
+  };
 
   /* ── Init ── */
 

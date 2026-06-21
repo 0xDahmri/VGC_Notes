@@ -127,6 +127,33 @@
   flex-shrink: 0;
 }
 
+/* item icon in dropdown (24×24 pixel sprite) */
+.ts-ac-item-icon {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  flex-shrink: 0;
+  image-rendering: pixelated;
+}
+
+/* item cell wrapper: icon + input side by side */
+.ts-ov-item-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.ts-ov-item-wrap input { flex: 1; min-width: 0; }
+
+/* inline item icon next to the input */
+.ts-item-icon {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  flex-shrink: 0;
+  image-rendering: pixelated;
+}
+
 /* ── Tab bar ── */
 .ts-tab-bar {
   display: flex;
@@ -140,7 +167,7 @@
   display: flex;
   align-items: center;
   gap: 0.3rem;
-  padding: 0.45rem 0.5rem;
+  padding: 0.45rem 0.6rem;
   border: none;
   border-bottom: 3px solid transparent;
   background: transparent;
@@ -149,8 +176,9 @@
   font-size: 0.82rem;
   cursor: pointer;
   margin-bottom: -2px;
-  flex: 1;
-  min-width: 0;
+  flex: 0 0 auto;
+  min-width: 70px;
+  max-width: 160px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -359,6 +387,130 @@
 .ts-type-dark     { background: #705746; }
 .ts-type-steel    { background: #B7B7CE; color: #1a1a1a; }
 .ts-type-fairy    { background: #D685AD; }
+
+/* ── Import modal ── */
+.ts-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.72);
+  z-index: 99998;
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+
+.ts-modal-overlay.ts-modal-open { display: flex; }
+
+.ts-modal {
+  background: #1a1d2b;
+  border: 1px solid rgba(77,208,225,0.3);
+  border-radius: 14px;
+  padding: 1.75rem 2rem;
+  width: min(580px, 92vw);
+  max-height: 85vh;
+  overflow-y: auto;
+  z-index: 99999;
+  box-shadow: 0 24px 64px rgba(0,0,0,0.7);
+}
+
+.ts-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.85rem;
+}
+
+.ts-modal-header h3 {
+  color: #fff;
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.ts-modal-close {
+  background: transparent;
+  border: none;
+  color: rgba(255,255,255,0.45);
+  font-size: 1.4rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0 0.2rem;
+  transition: color 0.15s;
+}
+
+.ts-modal-close:hover { color: #fff; }
+
+.ts-modal-note {
+  font-size: 0.8rem;
+  color: rgba(255,255,255,0.45);
+  margin-bottom: 1rem;
+  line-height: 1.6;
+}
+
+.ts-modal textarea {
+  width: 100%;
+  height: 210px;
+  background: #12141d;
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 8px;
+  color: rgba(255,255,255,0.87);
+  font-family: monospace;
+  font-size: 0.8rem;
+  padding: 0.75rem;
+  resize: vertical;
+  outline: none;
+  box-sizing: border-box;
+  line-height: 1.55;
+  transition: border-color 0.15s;
+}
+
+.ts-modal textarea:focus { border-color: rgba(77,208,225,0.5); }
+
+.ts-modal-status {
+  min-height: 1.2rem;
+  font-size: 0.78rem;
+  margin-top: 0.55rem;
+}
+
+.ts-modal-success { color: #69f0ae; }
+.ts-modal-warn    { color: #ffd54f; }
+.ts-modal-error   { color: #ef9a9a; }
+
+.ts-modal-actions {
+  display: flex;
+  gap: 0.6rem;
+  margin-top: 1rem;
+  justify-content: flex-end;
+}
+
+.ts-modal-btn {
+  padding: 0.45rem 1.25rem;
+  border-radius: 6px;
+  font-weight: 700;
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.ts-modal-cancel {
+  background: transparent;
+  border: 1.5px solid rgba(255,255,255,0.25);
+  color: rgba(255,255,255,0.6);
+}
+
+.ts-modal-cancel:hover {
+  border-color: rgba(255,255,255,0.5);
+  color: #fff;
+}
+
+.ts-modal-submit {
+  background: #4dd0e1;
+  border: 1.5px solid #4dd0e1;
+  color: #0e1018;
+}
+
+.ts-modal-submit:hover { background: #80deea; border-color: #80deea; }
 
 /* ── Print ── */
 @media print {

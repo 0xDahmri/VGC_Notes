@@ -354,49 +354,88 @@ window.VGC_ITEMS = [
   'Choice Band', 'Choice Scarf', 'Choice Specs',
   // Power items
   'Life Orb', 'Expert Belt', 'Assault Vest',
+  // Attack/Sp.Atk slight boost
+  'Muscle Band', 'Wise Glasses',
   // Defensive
   'Rocky Helmet', 'Leftovers', 'Black Sludge',
+  'Air Balloon', 'Sticky Barb',
   // Sashes & bands
-  'Focus Sash', 'Focus Band',
+  'Focus Sash', 'Focus Band', 'Binding Band',
   // Berries — recovery
-  'Sitrus Berry', 'Oran Berry', 'Lum Berry', 'Chesto Berry',
-  // Berries — pinch stat
+  'Sitrus Berry', 'Oran Berry', 'Lum Berry', 'Chesto Berry', 'Leppa Berry',
+  // Berries — pinch stat boost
   'Figy Berry', 'Wiki Berry', 'Mago Berry', 'Aguav Berry', 'Iapapa Berry',
   'Salac Berry', 'Liechi Berry', 'Petaya Berry', 'Apicot Berry', 'Ganlon Berry',
-  'Lansat Berry', 'Enigma Berry', 'Micle Berry', 'Custap Berry', 'Leppa Berry',
+  'Lansat Berry', 'Enigma Berry', 'Micle Berry', 'Custap Berry',
+  // Berries — type resist
+  'Occa Berry', 'Passho Berry', 'Wacan Berry', 'Rindo Berry', 'Yache Berry',
+  'Chople Berry', 'Kebia Berry', 'Shuca Berry', 'Coba Berry', 'Payapa Berry',
+  'Tanga Berry', 'Charti Berry', 'Kasib Berry', 'Haban Berry', 'Colbur Berry',
+  'Babiri Berry', 'Chilan Berry', 'Roseli Berry',
+  // Berries — misc
+  'Jaboca Berry', 'Rowap Berry', 'Kee Berry', 'Maranga Berry',
   // Orbs
   'Flame Orb', 'Toxic Orb',
   // Policy / herb
   'Weakness Policy', 'White Herb', 'Power Herb', 'Mental Herb',
+  // Reactive / conditional
+  'Adrenaline Orb', 'Absorb Bulb', 'Cell Battery', 'Luminous Moss', 'Snowball',
   // Trick / utility
-  'Red Card', 'Eject Button', 'Eject Pack',
-  'Safety Goggles', 'Clear Amulet', 'Covert Cloak',
+  'Red Card', 'Eject Button', 'Eject Pack', 'Ring Target', 'Shed Shell',
+  'Safety Goggles', 'Clear Amulet', 'Covert Cloak', 'Ability Shield',
   'Loaded Dice', 'Punching Glove', 'Mirror Herb',
-  'Shed Shell', 'Throat Spray', 'Room Service', 'Utility Umbrella',
+  'Throat Spray', 'Room Service', 'Utility Umbrella',
   'Booster Energy',
-  // Targeting
-  'Wide Lens', 'Zoom Lens', 'Scope Lens', 'Razor Claw',
+  // Accuracy / critical hit
+  'Wide Lens', 'Zoom Lens', 'Scope Lens', 'Razor Claw', 'Razor Fang',
+  'King\'s Rock', 'Bright Powder', 'Lax Incense',
   // Speed control
   'Iron Ball', 'Lagging Tail', 'Full Incense',
   // Terrain seeds
   'Electric Seed', 'Grassy Seed', 'Misty Seed', 'Psychic Seed',
   // Weather rocks
   'Heat Rock', 'Icy Rock', 'Smooth Rock', 'Damp Rock', 'Light Clay',
-  // Type boosters
-  'Black Belt', 'BlackGlasses', 'Charcoal', 'Dragon Fang', 'Hard Stone',
-  'Magnet', 'Metal Coat', 'Miracle Seed', 'Mystic Water', 'Never-Melt Ice',
-  'Poison Barb', 'Sharp Beak', 'Silk Scarf', 'Silver Powder', 'Soft Sand',
-  'Spell Tag', 'Twisted Spoon', 'Wave Incense', 'Sea Incense',
-  // Mega Stones — standard
+  // Type boosters (silk/twist/etc.)
+  'Black Belt', 'BlackGlasses', 'Charcoal', 'Dragon Fang', 'Fairy Feather',
+  'Hard Stone', 'Magnet', 'Metal Coat', 'Miracle Seed', 'Mystic Water',
+  'Never-Melt Ice', 'Poison Barb', 'Sharp Beak', 'Silk Scarf',
+  'Silver Powder', 'Soft Sand', 'Spell Tag', 'Twisted Spoon',
+  'Wave Incense', 'Sea Incense',
+  // Type plates
+  'Draco Plate', 'Dread Plate', 'Earth Plate', 'Fist Plate', 'Flame Plate',
+  'Icicle Plate', 'Insect Plate', 'Iron Plate', 'Meadow Plate', 'Mind Plate',
+  'Pixie Plate', 'Sky Plate', 'Splash Plate', 'Spooky Plate', 'Stone Plate',
+  'Toxic Plate', 'Zap Plate',
+  // Species-specific
+  'Thick Club', 'Light Ball', 'Deep Sea Tooth', 'Deep Sea Scale',
+  'Soul Dew', 'Lucky Punch',
+  // Misc competitive
+  'Metronome', 'Big Root',
+
+  // ── Mega Stones — standard (official Gen 6–7) ────────────────────────────
   'Abomasite', 'Absolite', 'Aerodactylite', 'Aggronite', 'Alakazite',
-  'Altarianite', 'Ampharosite', 'Banettite', 'Beedrillite', 'Blazikenite',
-  'Blastoisinite', 'Cameruptite', 'Charizardite X', 'Charizardite Y',
+  'Altarianite', 'Ampharosite', 'Audinite', 'Banettite', 'Beedrillite',
+  'Blastoisinite', 'Blazikenite', 'Cameruptite',
+  'Charizardite X', 'Charizardite Y',
   'Galladite', 'Garchompite', 'Gardevoirite', 'Gengarite', 'Glalitite',
   'Gyaradosite', 'Heracronite', 'Houndoominite', 'Kangaskhanite',
-  'Lopunnite', 'Lucarionite', 'Manectricite', 'Medichamite', 'Metagrossite',
-  'Mawilite', 'Pidgeotite', 'Pinsirite', 'Sablenite', 'Sceptilite',
+  'Lopunnite', 'Lucarionite', 'Manectricite', 'Mawilite', 'Medichamite',
+  'Metagrossite', 'Pidgeotite', 'Pinsirite', 'Sablenite', 'Sceptilite',
   'Scizorite', 'Sharpedonite', 'Slowbronite', 'Steelixite',
   'Swampertite', 'Tyranitarite', 'Venusaurite',
-  // Mega Stones — Champions confirmed
-  'Dragalgite', 'Eelektrossite', 'Raichunite X',
+
+  // ── Mega Stones — Champions (custom) ─────────────────────────────────────
+  // Standard-name Megas added in Champions
+  'Dragalgite', 'Eelektrossite',
+  // Raichu splits
+  'Raichunite X', 'Raichunite Y',
+  // Fully custom (verify names in-game if uncertain)
+  'Greninjaite', 'Delphoxite', 'Pyroarite', 'Meowstite',
+  'Hawluchite', 'Skarmoryite', 'Staraptite', 'Excadrillite',
+  'Glimmorite', 'Dragonitite', 'Froslasite', 'Starmite',
+  'Chandelurite', 'Falinksite', 'Barbaraclite', 'Malamarite',
+  'Scolipedite', 'Eternalite', 'Feraligatrite', 'Meganiumite',
+  'Emboarite', 'Scovillaite', 'Chimechite', 'Golurkite',
+  'Chesnaughtite', 'Drampite', 'Clefablite', 'Victreebelite',
+  'Scraftite',
 ];

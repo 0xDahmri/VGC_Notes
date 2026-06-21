@@ -229,9 +229,184 @@
   background: rgba(77, 208, 225, 0.07) !important;
 }
 
+/* ── Compare toggle button (in hero) ── */
+.st-compare-btn {
+  margin-top: 1.25rem;
+  padding: 0.45rem 1.2rem;
+  border: 1.5px solid #4dd0e1;
+  border-radius: 6px;
+  background: transparent;
+  color: #4dd0e1;
+  font-weight: 700;
+  font-size: 0.8rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+.st-compare-btn:hover, .st-compare-btn.active {
+  background: #4dd0e1;
+  color: #0e1018;
+}
+
+/* ── Compare panel ── */
+.sc-panel {
+  display: none;
+  margin-bottom: 1.5rem;
+  background: #171924;
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 12px;
+  padding: 1.25rem 1.5rem 1.5rem;
+}
+.sc-panel.sc-open { display: block; }
+
+.sc-panel-title {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.4);
+  margin-bottom: 1rem;
+}
+
+.sc-teams {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+  margin-bottom: 1.25rem;
+}
+
+.sc-team-col-title {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: rgba(255,255,255,0.7);
+  margin-bottom: 0.6rem;
+}
+
+.sc-slot {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.45rem;
+}
+
+.sc-slot input[type="text"] {
+  flex: 1;
+  min-width: 0;
+  background: #12141d;
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 6px;
+  color: rgba(255,255,255,0.87);
+  font-size: 0.82rem;
+  padding: 0.35rem 0.6rem;
+  outline: none;
+  transition: border-color 0.15s;
+}
+.sc-slot input[type="text"]:focus { border-color: rgba(77,208,225,0.5); }
+
+.sc-slot select {
+  background: #12141d;
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 6px;
+  color: rgba(255,255,255,0.75);
+  font-size: 0.78rem;
+  padding: 0.35rem 0.4rem;
+  outline: none;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.sc-scarf-lbl {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.75rem;
+  color: rgba(255,255,255,0.5);
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.sc-run-btn {
+  display: block;
+  padding: 0.5rem 1.5rem;
+  background: #4dd0e1;
+  border: none;
+  border-radius: 6px;
+  color: #0e1018;
+  font-weight: 700;
+  font-size: 0.82rem;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  margin-bottom: 1.25rem;
+  transition: background 0.15s;
+}
+.sc-run-btn:hover { background: #80deea; }
+
+/* ── Comparison matrix ── */
+.sc-matrix-wrap {
+  overflow-x: auto;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.06);
+}
+
+.sc-matrix {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8rem;
+}
+
+.sc-matrix th {
+  background: #1e2233;
+  color: rgba(255,255,255,0.5);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 0.6rem 0.5rem;
+  border: none;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+  white-space: nowrap;
+}
+
+.sc-matrix th.sc-mine-header { color: #4dd0e1; min-width: 140px; text-align: left; }
+.sc-matrix th.sc-opp-header  { text-align: center; min-width: 110px; }
+
+.sc-matrix td {
+  padding: 0.45rem 0.5rem;
+  border: none;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  text-align: center;
+  vertical-align: middle;
+}
+
+.sc-matrix td.sc-row-label {
+  text-align: left;
+  color: rgba(255,255,255,0.8);
+  font-weight: 600;
+  background: #1b1d2b;
+  padding-left: 0.75rem;
+  white-space: nowrap;
+}
+
+.sc-matrix tr:nth-child(even) td { background: #1b1d2b; }
+.sc-matrix tr:nth-child(even) td.sc-row-label { background: #1e2133; }
+
+.sc-cell-win  { color: #69f0ae; font-weight: 700; }
+.sc-cell-lose { color: #ef9a9a; font-weight: 700; }
+.sc-cell-tie  { color: rgba(255,255,255,0.4); }
+
+.sc-empty-note {
+  font-size: 0.8rem;
+  color: rgba(255,255,255,0.35);
+  text-align: center;
+  padding: 1rem;
+}
+
 /* ── Print ── */
 @media print {
   .st-hero { display: none !important; }
+  .sc-panel { display: none !important; }
   .st-wrap { overflow: visible !important; }
   .st-wrap .st-table th, .st-wrap .st-table td {
     color: #000 !important;
