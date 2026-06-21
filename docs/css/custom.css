@@ -64,11 +64,17 @@
   background: #12141d;
 }
 
-/* Narrow the primary sidebar so tool content isn't squeezed.
-   Material 9.x uses --md-sidebar-width in its grid-template-columns,
-   so overriding the variable cascades to both sidebar width and content offset. */
-:root {
-  --md-sidebar-width: 9rem;
+/* Narrow the primary sidebar.
+   Material 9.x hardcodes 12.1rem in compiled CSS — must override both the
+   element width and the main content grid column directly. */
+.md-sidebar--primary {
+  width: 9rem !important;
+}
+
+@media screen and (min-width: 76.1875em) {
+  .md-main__inner {
+    grid-template-columns: 9rem minmax(0, 1fr) 12.1rem !important;
+  }
 }
 
 /* Allow long nav items to wrap gracefully in the narrower sidebar */

@@ -14,11 +14,14 @@
     const img = document.getElementById(`ov${i}-item-icon`);
     if (!img) return;
     img.style.display = 'none';
+    img.onload  = null;  // clear before changing src to avoid stale handlers
+    img.onerror = null;
     img.src = '';
     if (!name || !name.trim()) return;
+    const url = itemIconUrl(name.trim());
     img.onload  = function () { this.style.display = 'inline-block'; };
-    img.onerror = function () { this.style.display = 'none'; this.src = ''; };
-    img.src = itemIconUrl(name.trim());
+    img.onerror = function () { this.style.display = 'none'; };
+    img.src = url;
   }
 
   const selected = [null, null, null, null, null, null];
