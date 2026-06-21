@@ -3,11 +3,16 @@
 
   const KEY = 'vgc-team-sheet-v2';
   const SPR = '../../images/sprites/';
-  const ITEM_SPR = 'https://play.pokemonshowdown.com/sprites/itemicons/';
+  const ITEM_SPR = '../../images/items/';
 
   function itemIconUrl(name) {
-    const key = name.toLowerCase().replace(/[^a-z0-9]/g, '');
-    return ITEM_SPR + key + '.png';
+    const id = name
+      .replace(/['‘’]/g, '')
+      .replace(/([a-z])([A-Z])/g, '$1-$2')
+      .toLowerCase()
+      .replace(/\s+/g, '-')
+      .replace(/[^a-z0-9-]/g, '');
+    return ITEM_SPR + id + '.png';
   }
 
   function tsSetItemIcon(i, name) {
