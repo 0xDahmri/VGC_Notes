@@ -64,6 +64,20 @@
   background: #12141d;
 }
 
+/* Narrow the primary sidebar so tool content isn't squeezed.
+   Material 9.x uses --md-sidebar-width in its grid-template-columns,
+   so overriding the variable cascades to both sidebar width and content offset. */
+:root {
+  --md-sidebar-width: 9rem;
+}
+
+/* Allow long nav items to wrap gracefully in the narrower sidebar */
+.md-nav__link {
+  white-space: normal !important;
+  word-break: break-word;
+  line-height: 1.35;
+}
+
 .md-nav__title {
   color: rgba(255,255,255,0.4);
   font-size: 0.65rem;

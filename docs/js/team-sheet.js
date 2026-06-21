@@ -13,13 +13,12 @@
   function tsSetItemIcon(i, name) {
     const img = document.getElementById(`ov${i}-item-icon`);
     if (!img) return;
-    if (name && name.trim()) {
-      img.src = itemIconUrl(name.trim());
-      img.style.display = 'inline-block';
-    } else {
-      img.src = '';
-      img.style.display = 'none';
-    }
+    img.style.display = 'none';
+    img.src = '';
+    if (!name || !name.trim()) return;
+    img.onload  = function () { this.style.display = 'inline-block'; };
+    img.onerror = function () { this.style.display = 'none'; this.src = ''; };
+    img.src = itemIconUrl(name.trim());
   }
 
   const selected = [null, null, null, null, null, null];
