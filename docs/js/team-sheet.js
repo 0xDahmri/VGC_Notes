@@ -9,6 +9,8 @@
 
   /* ── Global autocomplete dropdown (body-level avoids overflow clipping) ── */
   let _drop = null;
+  let _dropCtx = null;   // { type: 'ability'|'item', slot: i }
+  let _dropOptions = []; // values for index-based simple dropdown
 
   function getDrop() {
     if (!_drop) {
@@ -38,7 +40,63 @@
 
   function hideDrop() {
     if (_drop) { _drop.innerHTML = ''; _drop.style.display = 'none'; }
+    _dropCtx = null;
   }
+
+  function showSimpleDrop(inputEl, options) {
+    _dropOptions = options;
+    const drop = getDrop();
+    if (!options.length) { hideDrop(); return; }
+    drop.innerHTML = options.map((opt, idx) =>
+      `<div class="ts-ac-item" onmousedown="tsSimpleSelect(${idx})"><span>${opt}</span></div>`
+    ).join('');
+    const r = inputEl.getBoundingClientRect();
+    drop.style.left    = r.left + 'px';
+    drop.style.top     = (r.bottom + 2) + 'px';
+    drop.style.width   = Math.max(200, r.width) + 'px';
+    drop.style.display = 'block';
+  }
+
+  window.tsSimpleSelect = function (idx) {
+    const value = _dropOptions[idx];
+    if (value === undefined || !_dropCtx) return;
+    const { type, slot } = _dropCtx;
+    const field = document.getElementById(type === 'ability' ? `ov${slot}-ability` : `ov${slot}-item`);
+    if (field) field.value = value;
+    hideDrop();
+    save();
+  };
+
+  window.tsAbilityFocus = function (i) {
+    const poke = selected[i];
+    const abilities = poke ? (window.ABILITIES_DATA || {})[poke.name] || [] : [];
+    if (!abilities.length) return;
+    const inp = document.getElementById(`ov${i}-ability`);
+    if (!inp) return;
+    _dropCtx = { type: 'ability', slot: i };
+    showSimpleDrop(inp, abilities);
+  };
+
+  window.tsAbilityInput = function (i) {
+    const poke = selected[i];
+    const abilities = poke ? (window.ABILITIES_DATA || {})[poke.name] || [] : [];
+    const inp = document.getElementById(`ov${i}-ability`);
+    if (!inp) return;
+    const q = inp.value.toLowerCase();
+    const filtered = q ? abilities.filter(a => a.toLowerCase().includes(q)) : abilities;
+    _dropCtx = { type: 'ability', slot: i };
+    showSimpleDrop(inp, filtered);
+  };
+
+  window.tsItemInput = function (i) {
+    const inp = document.getElementById(`ov${i}-item`);
+    if (!inp) return;
+    const q = inp.value.toLowerCase().trim();
+    if (!q) { hideDrop(); return; }
+    const filtered = (window.VGC_ITEMS || []).filter(it => it.toLowerCase().includes(q)).slice(0, 12);
+    _dropCtx = { type: 'item', slot: i };
+    showSimpleDrop(inp, filtered);
+  };
 
   function acFilter(query) {
     if (!query.trim()) return [];
@@ -61,9 +119,11 @@
           </div>
         </td>`;
       const typeCell = `<td class="ts-ov-type-cell"><div class="ts-type-display" id="ov${i}-types"></div></td>`;
-      const rest = ['ability','nature','item'].map(f =>
-        `<td><input type="text" id="ov${i}-${f}" autocomplete="off"></td>`
-      ).join('');
+      const rest = ['ability', 'nature', 'item'].map(f => {
+        if (f === 'ability') return `<td><input type="text" id="ov${i}-ability" autocomplete="off" onfocus="tsAbilityFocus(${i})" oninput="tsAbilityInput(${i})" onblur="tsNameBlur()"></td>`;
+        if (f === 'item')    return `<td><input type="text" id="ov${i}-item"    autocomplete="off" oninput="tsItemInput(${i})"    onblur="tsNameBlur()"></td>`;
+        return `<td><input type="text" id="ov${i}-${f}" autocomplete="off"></td>`;
+      }).join('');
       return `<tr>${nameCell}${typeCell}${rest}</tr>`;
     }).join('');
 
@@ -153,7 +213,12 @@
     selected[i] = poke;
     tsSetSprite(i, poke);
     tsSetTypes(i, poke);
-    if (poke) tsAutoFillSpeed(i, poke);
+    if (poke) {
+      tsAutoFillSpeed(i, poke);
+      const abilities = (window.ABILITIES_DATA || {})[poke.name] || [];
+      const abilityEl = document.getElementById(`ov${i}-ability`);
+      if (abilityEl) abilityEl.value = abilities.length === 1 ? abilities[0] : '';
+    }
     tsUpdateTabName(i);
     hideDrop();
     save();

@@ -36,6 +36,7 @@ extra_css:
 
 extra_javascript:
   - js/pokemon-data.js
+  - js/abilities-data.js
   - js/team-sheet.js
   - js/speed-tiers.js
 
