@@ -7,13 +7,13 @@
   const ROWS = (window.POKEMON_DATA || []).map(r => ({ ...r, ...window.calcSpeed(r.base) }));
 
   const COLS = [
-    { key: 'base',           label: 'BASE SPE',            cls: '' },
-    { key: 'maxSpeed',       label: 'MAX SPEED',           cls: 'st-max' },
-    { key: 'neutral32',      label: 'NEUTRAL +32 SP',      cls: '' },
-    { key: 'neutral0',       label: 'NEUTRAL 0 SP',        cls: '' },
-    { key: 'minus0',         label: '−SPE 0 SP',           cls: '' },
-    { key: 'scarfMax',       label: 'MAX + SCARF',         cls: '' },
-    { key: 'scarfNeutral32', label: 'NEUTRAL +32 + SCARF', cls: '' },
+    { key: 'base',           label: 'BASE',     cls: '',       title: 'Base Speed stat' },
+    { key: 'maxSpeed',       label: 'MAX',      cls: 'st-max', title: '+Speed nature, max EVs' },
+    { key: 'neutral32',      label: 'N +32',    cls: '',       title: 'Neutral nature, 32 EVs' },
+    { key: 'neutral0',       label: 'N 0',      cls: '',       title: 'Neutral nature, 0 EVs' },
+    { key: 'minus0',         label: '−N 0',     cls: '',       title: '−Speed nature, 0 EVs' },
+    { key: 'scarfMax',       label: 'SCARF',    cls: '',       title: '+Speed nature, max EVs + Choice Scarf' },
+    { key: 'scarfNeutral32', label: 'SCF N+32', cls: '',       title: 'Neutral nature, 32 EVs + Choice Scarf' },
   ];
 
   /* ── State ── */
@@ -79,7 +79,7 @@
     if (!c) return;
 
     const thCols = COLS.map((col, i) =>
-      `<th id="sth${i}" class="st-th ${col.cls}" onclick="stSort('${col.key}')">${col.label}</th>`
+      `<th id="sth${i}" class="st-th ${col.cls}" onclick="stSort('${col.key}')" title="${col.title || col.label}">${col.label}</th>`
     ).join('');
 
     const searchSVG = `<svg class="st-sicon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>`;

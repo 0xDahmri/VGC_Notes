@@ -92,7 +92,7 @@
 /* ── Table — override MkDocs Material defaults ── */
 .st-wrap .st-table {
   width: 100% !important;
-  min-width: 860px !important;
+  min-width: 560px !important;
   table-layout: auto !important;
   border-collapse: collapse !important;
   font-size: 0.84rem !important;
@@ -112,7 +112,7 @@
   font-weight: 700 !important;
   letter-spacing: 0.06em !important;
   text-transform: uppercase !important;
-  padding: 0.7rem 0.4rem !important;
+  padding: 0.6rem 0.5rem !important;
   text-align: center !important;
   white-space: nowrap !important;
   line-height: 1.3 !important;
@@ -126,8 +126,6 @@
   position: sticky !important;
   top: 0;
   z-index: 4 !important;
-  padding-left: 0.75rem !important;
-  padding-right: 0.75rem !important;
 }
 
 .st-wrap .st-table th.st-th:hover { color: rgba(255,255,255,0.85) !important; }
